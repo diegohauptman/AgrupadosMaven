@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ApplicationUserDetailsViewDlg" widgetVar="ApplicationUserDetailsViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewApplicationUserDetailsTitle}">
+            <h:form id="ApplicationUserDetailsViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{applicationUserDetailsController.selected != null}">
+                        <h:outputText value="#{bundle.ViewApplicationUserDetailsLabel_id}"/>
+                        <h:outputText value="#{applicationUserDetailsController.selected.id}" title="#{bundle.ViewApplicationUserDetailsTitle_id}"/>
+                        <h:outputText value="#{bundle.ViewApplicationUserDetailsLabel_name}"/>
+                        <h:outputText value="#{applicationUserDetailsController.selected.name}" title="#{bundle.ViewApplicationUserDetailsTitle_name}"/>
+                        <h:outputText value="#{bundle.ViewApplicationUserDetailsLabel_dniCif}"/>
+                        <h:outputText value="#{applicationUserDetailsController.selected.dniCif}" title="#{bundle.ViewApplicationUserDetailsTitle_dniCif}"/>
+                        <h:outputText value="#{bundle.ViewApplicationUserDetailsLabel_address}"/>
+                        <h:outputText value="#{applicationUserDetailsController.selected.address}" title="#{bundle.ViewApplicationUserDetailsTitle_address}"/>
+                        <h:outputText value="#{bundle.ViewApplicationUserDetailsLabel_city}"/>
+                        <h:outputText value="#{applicationUserDetailsController.selected.city}" title="#{bundle.ViewApplicationUserDetailsTitle_city}"/>
+                        <h:outputText value="#{bundle.ViewApplicationUserDetailsLabel_province}"/>
+                        <h:outputText value="#{applicationUserDetailsController.selected.province}" title="#{bundle.ViewApplicationUserDetailsTitle_province}"/>
+                        <h:outputText value="#{bundle.ViewApplicationUserDetailsLabel_country}"/>
+                        <h:outputText value="#{applicationUserDetailsController.selected.country}" title="#{bundle.ViewApplicationUserDetailsTitle_country}"/>
+                        <h:outputText value="#{bundle.ViewApplicationUserDetailsLabel_latitude}"/>
+                        <h:outputText value="#{applicationUserDetailsController.selected.latitude}" title="#{bundle.ViewApplicationUserDetailsTitle_latitude}"/>
+                        <h:outputText value="#{bundle.ViewApplicationUserDetailsLabel_longitude}"/>
+                        <h:outputText value="#{applicationUserDetailsController.selected.longitude}" title="#{bundle.ViewApplicationUserDetailsTitle_longitude}"/>
+                        <h:outputText value="#{bundle.ViewApplicationUserDetailsLabel_dateOfRegistration}"/>
+                        <h:outputText value="#{applicationUserDetailsController.selected.dateOfRegistration}" title="#{bundle.ViewApplicationUserDetailsTitle_dateOfRegistration}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle.ViewApplicationUserDetailsLabel_leavingDate}"/>
+                        <h:outputText value="#{applicationUserDetailsController.selected.leavingDate}" title="#{bundle.ViewApplicationUserDetailsTitle_leavingDate}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle.ViewApplicationUserDetailsLabel_applicationUsersId}"/>
+                        <h:outputText value="#{applicationUserDetailsController.selected.applicationUsersId}" title="#{bundle.ViewApplicationUserDetailsTitle_applicationUsersId}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="ApplicationUserDetailsViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

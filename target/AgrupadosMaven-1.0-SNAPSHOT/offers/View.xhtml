@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="OffersViewDlg" widgetVar="OffersViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewOffersTitle}">
+            <h:form id="OffersViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{offersController.selected != null}">
+                        <h:outputText value="#{bundle.ViewOffersLabel_id}"/>
+                        <h:outputText value="#{offersController.selected.id}" title="#{bundle.ViewOffersTitle_id}"/>
+                        <h:outputText value="#{bundle.ViewOffersLabel_title}"/>
+                        <h:outputText value="#{offersController.selected.title}" title="#{bundle.ViewOffersTitle_title}"/>
+                        <h:outputText value="#{bundle.ViewOffersLabel_description}"/>
+                        <h:outputText value="#{offersController.selected.description}" title="#{bundle.ViewOffersTitle_description}"/>
+                        <h:outputText value="#{bundle.ViewOffersLabel_startPrice}"/>
+                        <h:outputText value="#{offersController.selected.startPrice}" title="#{bundle.ViewOffersTitle_startPrice}"/>
+                        <h:outputText value="#{bundle.ViewOffersLabel_offerPrice}"/>
+                        <h:outputText value="#{offersController.selected.offerPrice}" title="#{bundle.ViewOffersTitle_offerPrice}"/>
+                        <h:outputText value="#{bundle.ViewOffersLabel_image}"/>
+                        <h:outputText value="#{offersController.selected.image}" title="#{bundle.ViewOffersTitle_image}"/>
+                        <h:outputText value="#{bundle.ViewOffersLabel_startDate}"/>
+                        <h:outputText value="#{offersController.selected.startDate}" title="#{bundle.ViewOffersTitle_startDate}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle.ViewOffersLabel_endDate}"/>
+                        <h:outputText value="#{offersController.selected.endDate}" title="#{bundle.ViewOffersTitle_endDate}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle.ViewOffersLabel_active}"/>
+                        <p:selectBooleanCheckbox value="#{offersController.selected.active}" disabled="true"/>
+                        <h:outputText value="#{bundle.ViewOffersLabel_applicationUsersId}"/>
+                        <h:outputText value="#{offersController.selected.applicationUsersId}" title="#{bundle.ViewOffersTitle_applicationUsersId}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="OffersViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

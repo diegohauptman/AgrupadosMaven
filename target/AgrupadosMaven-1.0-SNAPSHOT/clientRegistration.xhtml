@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        
+        <style type="text/css">
+    .label {
+        width:20%;
+        padding:4px;
+    }
+ 
+    .value {
+        width:80%;
+        padding:4px;
+    }
+ 
+    .grid {
+        width:100%;
+    }
+ 
+    .error {
+        color: red;
+    }
+ 
+    .outputLabel {
+        font-weight: bold;
+    }
+ 
+    .grid {
+        width:33%;
+        padding:4px;
+    }
+        </style>
+        
+    </h:head>
+    
+    <h:form>
+    <p:growl id="growl" sticky="true" showDetail="true"/>
+    <p:wizard flowListener="#{userWizard.onFlowProcess}">
+        <p:tab id="personal" title="Personal">
+            <p:panel header="Datos Personales">
+                <p:messages />
+                <h:panelGrid columns="2" columnClasses="label, value">
+                    <h:outputText value="Nombre: *" />
+                    <p:inputText value="#{userWizard.userDetails.name}" required="true" label="Nombre"/>
+ 
+                    <h:outputText value="DNI/CIF: *" />
+                    <p:inputText value="#{userWizard.userDetails.dniCif}" required="false" label="DNI/CIF"/>
+ 
+                    <h:outputText value="Email " />
+                    <p:inputText value="#{userWizard.user.email}" />
+                    
+                    <h:outputText value="Skip to last: " />
+                    <h:selectBooleanCheckbox value="#{userWizard.skip}" />
+                </h:panelGrid>
+            </p:panel>
+        </p:tab>
+ 
+        <p:tab id="address" title="Dirección">
+            <p:panel header="Datos de Dirección">
+                <p:messages />
+                <h:panelGrid columns="2" columnClasses="label, value">
+                    <h:outputText value="Calle: " />
+                    <p:inputText value="#{userWizard.userDetails.address}" />
+ 
+                    <h:outputText value="Província: " />
+                    <p:inputText value="#{userWizard.userDetails.province}" />
+ 
+                    <h:outputText value="Ciudad: " />
+                    <p:inputText value="#{userWizard.userDetails.city}" />
+                    
+                    <h:outputText value="País: " />
+                    <p:inputText value="#{userWizard.userDetails.country}" />
+ 
+                    <h:outputText value="Skip to last: " />
+                    <h:selectBooleanCheckbox value="#{userWizard.skip}" />
+                </h:panelGrid>
+            </p:panel>
+        </p:tab>
+ 
+        <p:tab id="login" title="Login">
+            <p:panel header="Datos Login">
+                <p:messages />
+                <h:panelGrid columns="2" columnClasses="label, value">
+                    <h:outputText value="Username: *" />
+                    <p:inputText value="#{userWizard.user.username}" required="true" label="Username"/>
+ 
+                    <h:outputText value="Contraseña: *" />
+                    <p:password id="pdw" value="#{userWizard.user.password}" match="confirmpwd" required="true"/>
+                    
+                    <h:outputText value="Confirme su Contraseña: *" />
+                    <p:password id="confirmpwd" value="#{userWizard.user.password}" required="true"/>
+ 
+                </h:panelGrid>
+            </p:panel>
+        </p:tab>
+ 
+        <p:tab id="confirm" title="Confirmación">
+            <p:panel header="Confirma tus Datos">
+                <h:panelGrid id="confirmation" columns="3" columnClasses="grid,grid,grid">
+                    <h:panelGrid columns="2" columnClasses="label, value">
+                        
+                        <h:outputText value="Nombre: " />
+                        <h:outputText value="#{userWizard.userDetails.name}" styleClass="outputLabel"/>
+ 
+                        <h:outputText value="Dirección: " />
+                        <h:outputText value="#{userWizard.userDetails.address}" styleClass="outputLabel"/>
+ 
+                        <h:outputText value="Ciudad: " />
+                        <h:outputText value="#{userWizard.userDetails.city}" styleClass="outputLabel"/>
+                    </h:panelGrid>
+ 
+                    <h:panelGrid columns="2" columnClasses="label, value">
+                        <h:outputText value="Email: " />
+                        <h:outputText value="#{userWizard.user.email}" styleClass="outputLabel"/>
+ 
+                        <h:outputText />
+                        <h:outputText />
+                    </h:panelGrid>
+                </h:panelGrid>
+ 
+                <p:commandButton value="Submit" action="#{userWizard.save(3)}" update="growl" process="@this"/>
+            </p:panel>
+        </p:tab>
+    </p:wizard>
+ 
+</h:form>
+    
+</html>

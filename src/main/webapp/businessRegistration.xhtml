@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <script async="async" defer="defer" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBr1K6D8AC32CB_QpfonnJief62NkErOWA" 
+        type="text/javascript"></script>
+
+        <style type="text/css">
+            .label {
+                width:20%;
+                padding:4px;
+            }
+
+            .value {
+                width:80%;
+                padding:4px;
+            }
+
+            .grid {
+                width:100%;
+            }
+
+            .error {
+                color: red;
+            }
+
+            .outputLabel {
+                font-weight: bold;
+            }
+
+            .grid {
+                width:33%;
+                padding:4px;
+            }
+        </style>
+
+    </h:head>
+
+    <h:form id="business">
+        <p:growl id="growl" sticky="true" showDetail="true"/>
+        <p:wizard flowListener="#{userWizard.onFlowProcess}">
+            <p:tab id="empresa" title="Empresa">
+                <p:panel header="Datos de la Empresa">
+                    <p:messages />
+                    <h:panelGrid columns="2" columnClasses="label, value">
+                        <h:outputText value="Nombre de la Empresa: *" />
+                        <p:inputText value="#{userWizard.userDetails.name}" required="true" label="Nombre"/>
+
+                        <h:outputText value="CIF: *" />
+                        <p:inputText value="#{userWizard.userDetails.dniCif}" required="false" label="DNI/CIF"/>
+
+                        <h:outputText value="Email " />
+                        <p:inputText value="#{userWizard.user.email}" />
+
+                    </h:panelGrid>
+                </p:panel>
+            </p:tab>
+
+            <p:tab id="address" title="Dirección">
+                <p:panel header="Datos de Dirección">
+                    <p:messages />
+                    <h:panelGrid columns="3">
+                        <h:panelGrid columns="2" columnClasses="label, value">
+                            <h:outputText value="Calle: " />
+                            <p:inputText value="#{userWizard.userDetails.address}">
+                                <p:ajax event="change" update="map,longitude,latitude"   
+                                        listener="#{userWizard.retrieveCoordinates()}" process="@all"/>
+                            </p:inputText>
+
+                            <h:outputText value="Província: " />
+                            <p:inputText value="#{userWizard.userDetails.province}">
+                                <p:ajax event="change" update="map,longitude,latitude"   
+                                        listener="#{userWizard.retrieveCoordinates()}" process="@all"/>
+                            </p:inputText>
+
+                            <h:outputText value="Ciudad: " />
+                            <p:inputText value="#{userWizard.userDetails.city}">
+                                <p:ajax event="change" update="map,longitude,latitude"   
+                                        listener="#{userWizard.retrieveCoordinates()}" process="@all"/>
+                            </p:inputText>
+
+                            <h:outputText value="País: " />
+                            <p:inputText value="#{userWizard.userDetails.country}">
+                                <p:ajax event="change" update="map,longitude,latitude"   
+                                        listener="#{userWizard.retrieveCoordinates()}" process="@all"/>
+                            </p:inputText>
+
+                            <h:outputText value="Latitude: " />
+                            <p:outputLabel id="latitude" value="#{userWizard.userDetails.latitude}" />
+
+                            <h:outputText value="Longitude: " />
+                            <p:outputLabel id="longitude" value="#{userWizard.userDetails.longitude}" />
+
+                        </h:panelGrid>
+                        <h:panelGrid>
+                            <p:gmap id="map" model="#{userWizard.model}" center="#{userWizard.address.getCoordinatesForMap()}" zoom="5" type="HYBRID" style="width:800px;height:400px">
+                            </p:gmap>
+                        </h:panelGrid>
+                    </h:panelGrid>
+                </p:panel>
+            </p:tab>
+
+            <p:tab id="login" title="Login">
+                <p:panel header="Datos Login">
+                    <p:messages />
+                    <h:panelGrid columns="2" columnClasses="label, value">
+                        <h:outputText value="Username: *" />
+                        <p:inputText value="#{userWizard.user.username}" required="true" label="Username"/>
+
+                        <h:outputText value="Contraseña: *" />
+                        <p:password id="pdw" value="#{userWizard.user.password}" match="confirmpwd" required="true"/>
+
+                        <h:outputText value="Confirme su Contraseña: *" />
+                        <p:password id="confirmpwd" value="#{userWizard.user.password}" required="true"/>
+
+                    </h:panelGrid>
+                </p:panel>
+            </p:tab>
+
+            <p:tab id="confirm" title="Confirmación">
+                <p:panel header="Confirma tus Datos">
+                    <h:panelGrid id="confirmation" columns="3" columnClasses="grid,grid,grid">
+                        <h:panelGrid columns="2" columnClasses="label, value">
+
+                            <h:outputText value="Nombre: " />
+                            <h:outputText value="#{userWizard.userDetails.name}" styleClass="outputLabel"/>
+
+                            <h:outputText value="Dirección: " />
+                            <h:outputText value="#{userWizard.userDetails.address}" styleClass="outputLabel"/>
+
+                            <h:outputText value="Ciudad: " />
+                            <h:outputText value="#{userWizard.userDetails.city}" styleClass="outputLabel"/>
+                        </h:panelGrid>
+
+                        <h:panelGrid columns="2" columnClasses="label, value">
+                            <h:outputText value="Email: " />
+                            <h:outputText value="#{userWizard.user.email}" styleClass="outputLabel"/>
+
+                            <h:outputText />
+                            <h:outputText />
+                        </h:panelGrid>
+                    </h:panelGrid>
+
+                    <p:commandButton value="Submit" action="#{userWizard.save(1)}" update="growl" process="@this"/>
+                </p:panel>
+            </p:tab>
+        </p:wizard>
+
+    </h:form>
+
+</html>

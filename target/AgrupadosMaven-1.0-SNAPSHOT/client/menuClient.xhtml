@@ -1,0 +1,35 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <h:outputStylesheet name="/css/default.css"/>
+        <h:outputStylesheet name="/css/cssLayout.css"/>
+    </h:head>
+    <h:form>
+        <p:menubar>
+            
+            <p:menuitem value="Home" url="/index.xhtml" icon="fa fa-home" />
+            
+            <p:menuitem value="My Cart" url="#" icon="fa fa-shopping-cart" />
+
+            <p:menuitem value="FAQ" url="#" icon="fa fa-question" />
+
+            <p:menuitem value="My Account" url="clientAccount.xhtml" icon="fa fa-user" />
+
+            <f:facet name="options">
+                <p:inputText style="margin-right:10px" placeholder="¿Qué estás buscando?"/>
+
+                <p:commandButton value="Sign Out" icon="fa fa-sign-out" action="#{userLoginView.logout}"/>
+
+                <p:growl id="growl" sticky="false" showDetail="true" life="3000" />
+
+            </f:facet>
+        </p:menubar>
+    </h:form>
+
+</ui:composition>
+

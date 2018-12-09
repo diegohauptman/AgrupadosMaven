@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="OffersEditDlg" widgetVar="OffersEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditOffersTitle}">
+            <h:form id="OffersEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{offersController.selected != null}">
+                        <p:outputLabel value="#{bundle.EditOffersLabel_id}" for="id" />
+                        <p:inputText id="id" value="#{offersController.selected.id}" title="#{bundle.EditOffersTitle_id}" required="true" requiredMessage="#{bundle.EditOffersRequiredMessage_id}"/>
+                        <p:outputLabel value="#{bundle.EditOffersLabel_title}" for="title" />
+                        <p:inputText id="title" value="#{offersController.selected.title}" title="#{bundle.EditOffersTitle_title}" required="true" requiredMessage="#{bundle.EditOffersRequiredMessage_title}"/>
+                        <p:outputLabel value="#{bundle.EditOffersLabel_description}" for="description" />
+                        <p:inputText id="description" value="#{offersController.selected.description}" title="#{bundle.EditOffersTitle_description}" />
+                        <p:outputLabel value="#{bundle.EditOffersLabel_startPrice}" for="startPrice" />
+                        <p:inputText id="startPrice" value="#{offersController.selected.startPrice}" title="#{bundle.EditOffersTitle_startPrice}" required="true" requiredMessage="#{bundle.EditOffersRequiredMessage_startPrice}"/>
+                        <p:outputLabel value="#{bundle.EditOffersLabel_offerPrice}" for="offerPrice" />
+                        <p:inputText id="offerPrice" value="#{offersController.selected.offerPrice}" title="#{bundle.EditOffersTitle_offerPrice}" required="true" requiredMessage="#{bundle.EditOffersRequiredMessage_offerPrice}"/>
+                        <p:outputLabel value="#{bundle.EditOffersLabel_image}" for="image" />
+                        <p:inputText id="image" value="#{offersController.selected.image}" title="#{bundle.EditOffersTitle_image}" />
+                        <p:outputLabel value="#{bundle.EditOffersLabel_startDate}" for="startDate" />
+                        <p:calendar id="startDate" pattern="MM/dd/yyyy HH:mm:ss" value="#{offersController.selected.startDate}" title="#{bundle.EditOffersTitle_startDate}" required="true" requiredMessage="#{bundle.EditOffersRequiredMessage_startDate}" showOn="button"/>
+                        <p:outputLabel value="#{bundle.EditOffersLabel_endDate}" for="endDate" />
+                        <p:calendar id="endDate" pattern="MM/dd/yyyy HH:mm:ss" value="#{offersController.selected.endDate}" title="#{bundle.EditOffersTitle_endDate}" required="true" requiredMessage="#{bundle.EditOffersRequiredMessage_endDate}" showOn="button"/>
+                        <p:outputLabel value="#{bundle.EditOffersLabel_active}" for="active" />
+                        <p:selectBooleanCheckbox id="active" value="#{offersController.selected.active}" required="true" requiredMessage="#{bundle.EditOffersRequiredMessage_active}"/>
+                        <p:outputLabel value="#{bundle.EditOffersLabel_applicationUsersId}" for="applicationUsersId" />
+                        <p:selectOneMenu id="applicationUsersId" value="#{offersController.selected.applicationUsersId}" required="true" requiredMessage="#{bundle.EditOffersRequiredMessage_applicationUsersId}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{applicationUsersController.itemsAvailableSelectOne}"
+                                           var="applicationUsersIdItem"
+                                           itemValue="#{applicationUsersIdItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{offersController.update}" value="#{bundle.Save}" update="display,:OffersListForm:datalist,:growl" oncomplete="handleSubmit(args, 'OffersEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="OffersEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

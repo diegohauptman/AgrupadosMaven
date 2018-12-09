@@ -1,0 +1,65 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <h:outputStylesheet name="/css/default.css"/>
+        <h:outputStylesheet name="/css/cssLayout.css"/>
+    </h:head>
+    <h:form>
+        <p:menubar>
+            
+            <p:menuitem value="Home" url="index.xhtml" icon="fa fa-home" />
+            <p:menuitem value="Mis Compras" url="#" icon="fa fa-shopping-cart" />
+
+            <p:menuitem value="Ayuda" url="#" icon="fa fa-question" />
+            <p:submenu label="Registrate" icon="fa fa-edit">
+                <p:menuitem value="Cliente" url="RegistroCliente.xhtml"/>
+                <p:menuitem value="Empresa" url="RegistroBusiness.xhtml"/>
+            </p:submenu>
+            
+            <p:menuitem value="Publica Una Oferta" url="#" icon="fa fa-plus" />
+
+            <f:facet name="options">
+                <p:inputText style="margin-right:10px" placeholder="¿Qué estás buscando?"/>
+                
+                <h:outputLink value="javascript:void(0)" onclick="PF('dlg').show();" title="login">
+                    <p:commandButton type="button" value="Login" icon="fa fa-lock" />
+                </h:outputLink>
+
+                <p:growl id="growl" sticky="true" showDetail="true" life="3000" />
+
+                <p:dialog header="Login" widgetVar="dlg" resizable="false">
+                    <h:panelGrid columns="2" cellpadding="5">
+                        <h:outputLabel for="username" value="Username:" />
+                        <p:inputText id="username" value="#{userLoginView.user.username}" required="true" label="Nombre de Usuário" />
+
+                        <h:outputLabel for="password" value="Password:" />
+                        <p:password id="password" value="#{userLoginView.user.password}" required="true" label="password" />
+
+                        <f:facet name="footer">
+                            <p:commandButton value="Login" update="growl" action="#{userLoginView.login}"
+                                             oncomplete="handleLoginRequest(xhr, status, args)" />
+                        </f:facet>  
+                    </h:panelGrid>
+                </p:dialog>
+
+                <script type="text/javascript">
+                    function handleLoginRequest(xhr, status, args) {
+                        if (args.validationFailed || !args.loggedIn) {
+                            PF('dlg').jq.effect("shake", {times: 5}, 100);
+                        } else {
+                            PF('dlg').hide();
+                            $('#loginLink').fadeOut();
+                        }
+                    }
+                </script>
+
+            </f:facet>
+        </p:menubar>
+    </h:form>
+
+</ui:composition>

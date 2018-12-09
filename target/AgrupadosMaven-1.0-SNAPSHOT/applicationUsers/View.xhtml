@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ApplicationUsersViewDlg" widgetVar="ApplicationUsersViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewApplicationUsersTitle}">
+            <h:form id="ApplicationUsersViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{applicationUsersController.selected != null}">
+                        <h:outputText value="#{bundle.ViewApplicationUsersLabel_id}"/>
+                        <h:outputText value="#{applicationUsersController.selected.id}" title="#{bundle.ViewApplicationUsersTitle_id}"/>
+                        <h:outputText value="#{bundle.ViewApplicationUsersLabel_username}"/>
+                        <h:outputText value="#{applicationUsersController.selected.username}" title="#{bundle.ViewApplicationUsersTitle_username}"/>
+                        <h:outputText value="#{bundle.ViewApplicationUsersLabel_password}"/>
+                        <h:outputText value="#{applicationUsersController.selected.password}" title="#{bundle.ViewApplicationUsersTitle_password}"/>
+                        <h:outputText value="#{bundle.ViewApplicationUsersLabel_email}"/>
+                        <h:outputText value="#{applicationUsersController.selected.email}" title="#{bundle.ViewApplicationUsersTitle_email}"/>
+                        <h:outputText value="#{bundle.ViewApplicationUsersLabel_active}"/>
+                        <p:selectBooleanCheckbox value="#{applicationUsersController.selected.active}" disabled="true"/>
+                        <h:outputText value="#{bundle.ViewApplicationUsersLabel_role}"/>
+                        <h:outputText value="#{applicationUsersController.selected.role}" title="#{bundle.ViewApplicationUsersTitle_role}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="ApplicationUsersViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>
