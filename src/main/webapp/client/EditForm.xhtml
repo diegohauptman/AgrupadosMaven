@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+
+    <ui:composition>
+        <style type="text/css">
+            .column {
+                font-weight: bold;
+            }
+           
+        </style>
+        <script>
+            $(document).ready(function() {
+                $("[data-show-initial='true'] > span").click();
+            });
+        </script>
+        <h:form id="ApplicationUserDetailsEditForm">
+            <h:panelGroup id="display" >
+                <p:panelGrid columns="2" columnClasses="column" rendered="#{loggedUserController.loggedUser != null}">
+                        <p:outputLabel value="#{bundle.EditApplicationUserDetailsLabel_name}" for="name" />
+                        <p:inplace editor="true" pt:data-show-initial="true">
+                            <p:ajax event="save" listener="#{loggedUserController.update()}"/>
+                            <p:inputText id="name" value="#{loggedUserController.loggedUser.name}" title="#{bundle.EditApplicationUserDetailsTitle_name}" required="true" requiredMessage="#{bundle.EditApplicationUserDetailsRequiredMessage_name}"/>
+                        </p:inplace>
+                        <p:outputLabel value="#{bundle.EditApplicationUserDetailsLabel_dniCif}" for="dniCif" />
+                        <p:inplace editor="true" pt:data-show-initial="true">
+                            <p:ajax event="save" listener="#{loggedUserController.update()}"/>
+                            <p:inputText id="dniCif" value="#{loggedUserController.loggedUser.dniCif}" title="#{bundle.EditApplicationUserDetailsTitle_dniCif}" required="true" requiredMessage="#{bundle.EditApplicationUserDetailsRequiredMessage_dniCif}"/>
+                        </p:inplace>
+                        <p:outputLabel value="#{bundle.EditApplicationUserDetailsLabel_address}" for="address" />
+                        <p:inplace editor="true" pt:data-show-initial="true">
+                            <p:ajax event="save" listener="#{loggedUserController.update()}"/>
+                            <p:inputText id="address" value="#{loggedUserController.loggedUser.address}" title="#{bundle.EditApplicationUserDetailsTitle_address}" required="true" requiredMessage="#{bundle.EditApplicationUserDetailsRequiredMessage_address}"/>
+                        </p:inplace>
+                        <p:outputLabel value="#{bundle.EditApplicationUserDetailsLabel_city}" for="city" />
+                        <p:inplace editor="true" pt:data-show-initial="true">
+                            <p:ajax event="save" listener="#{loggedUserController.update()}"/>
+                            <p:inputText id="city" value="#{loggedUserController.loggedUser.city}" title="#{bundle.EditApplicationUserDetailsTitle_city}" required="true" requiredMessage="#{bundle.EditApplicationUserDetailsRequiredMessage_city}"/>
+                        </p:inplace>
+                        <p:outputLabel value="#{bundle.EditApplicationUserDetailsLabel_province}" for="province" />
+                        <p:inplace editor="true" pt:data-show-initial="true">
+                            <p:ajax event="save" listener="#{loggedUserController.update()}"/>
+                            <p:inputText id="province" value="#{loggedUserController.loggedUser.province}" title="#{bundle.EditApplicationUserDetailsTitle_province}" required="true" requiredMessage="#{bundle.EditApplicationUserDetailsRequiredMessage_province}"/>
+                        </p:inplace>
+                        <p:outputLabel value="#{bundle.EditApplicationUserDetailsLabel_country}" for="country" />
+                        <p:inplace editor="true" pt:data-show-initial="true">
+                            <p:ajax event="save" listener="#{loggedUserController.update()}"/>
+                            <p:inputText id="country" value="#{loggedUserController.loggedUser.country}" title="#{bundle.EditApplicationUserDetailsTitle_country}" required="true" requiredMessage="#{bundle.EditApplicationUserDetailsRequiredMessage_country}"/>
+                        </p:inplace>
+                    </p:panelGrid>
+                    <ui:remove>
+                        <p:commandButton actionListener="#{loggedUserController.update}" value="#{bundle.Save}"/>
+                    </ui:remove>
+                </h:panelGroup>
+            </h:form>
+
+    </ui:composition>
+</html>

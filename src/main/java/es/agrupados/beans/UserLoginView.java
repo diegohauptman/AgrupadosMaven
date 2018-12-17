@@ -84,7 +84,8 @@ public class UserLoginView implements Serializable {
         context.getExternalContext().getFlash().setKeepMessages(true);
         return page;
     }
-
+    
+    
     public void logout() {
         FacesContext context = FacesContext.getCurrentInstance();
         context.getExternalContext().invalidateSession();

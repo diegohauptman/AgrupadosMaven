@@ -23,7 +23,7 @@ public class LoginBean {
     private EntityManager em;
     
      public ApplicationUsers userAuth (ApplicationUsers user) {
-        System.out.println("Usuario inside userAuth method: " + user.getEmail());
+        System.out.println("Usuario inside userAuth method: " + user.getUsername());
         TypedQuery<ApplicationUsers> query = em.createNamedQuery(
                 "ApplicationUsers.login", ApplicationUsers.class);
         query.setParameter("pUsername", user.getUsername());
