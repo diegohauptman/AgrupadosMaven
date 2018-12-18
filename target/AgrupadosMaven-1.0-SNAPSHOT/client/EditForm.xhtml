@@ -20,6 +20,7 @@
             });
         </script>
         <h:form id="ApplicationUserDetailsEditForm">
+            <p:growl id="growl"/>
             <h:panelGroup id="display" >
                 <p:panelGrid columns="2" columnClasses="column" rendered="#{loggedUserController.loggedUser != null}">
                         <p:outputLabel value="#{bundle.EditApplicationUserDetailsLabel_name}" for="name" />
@@ -29,7 +30,7 @@
                         </p:inplace>
                         <p:outputLabel value="#{bundle.EditApplicationUserDetailsLabel_dniCif}" for="dniCif" />
                         <p:inplace editor="true" pt:data-show-initial="true">
-                            <p:ajax event="save" listener="#{loggedUserController.update()}"/>
+                            <p:ajax event="save" update="growl" listener="#{loggedUserController.update()}"/>
                             <p:inputText id="dniCif" value="#{loggedUserController.loggedUser.dniCif}" title="#{bundle.EditApplicationUserDetailsTitle_dniCif}" required="true" requiredMessage="#{bundle.EditApplicationUserDetailsRequiredMessage_dniCif}"/>
                         </p:inplace>
                         <p:outputLabel value="#{bundle.EditApplicationUserDetailsLabel_address}" for="address" />

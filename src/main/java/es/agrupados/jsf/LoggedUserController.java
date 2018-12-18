@@ -80,7 +80,7 @@ public class LoggedUserController implements Serializable {
     }
 
     public void update() {
-        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("ApplicationUserDetailsUpdated"));
+        persist(PersistAction.UPDATE, "Successfully Updated!");
     }
 
     public void destroy() {
