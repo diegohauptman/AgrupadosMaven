@@ -7,14 +7,14 @@ es/agrupados/jsf/ApplicationRolesController.class
 es/agrupados/beans/GenericDAO.class
 es/agrupados/jsf/CouponsController.class
 es/agrupados/beans/CouponsFacade.class
-es/agrupados/gmap/Address.class
 es/agrupados/persistence/Coupons.class
+es/agrupados/gmap/Address.class
 es/agrupados/gmap/CoordinatesService.class
-es/agrupados/jsf/OffersController.class
 es/agrupados/jsf/CouponsController$CouponsControllerConverter.class
+es/agrupados/jsf/OffersController.class
 es/agrupados/beans/ValidationView.class
-es/agrupados/beans/OffersFacade.class
 es/agrupados/beans/GenericDAO$MatchMode.class
+es/agrupados/beans/OffersFacade.class
 es/agrupados/jsf/ApplicationRolesController$ApplicationRolesControllerConverter.class
 es/agrupados/jsf/util/JsfUtil$PersistAction.class
 es/agrupados/jsf/ApplicationUserDetailsController$ApplicationUserDetailsControllerConverter.class
@@ -30,6 +30,7 @@ es/agrupados/filters/AuthBusinessFilter.class
 es/agrupados/jsf/LoggedUserController.class
 es/agrupados/persistence/ApplicationRoles.class
 es/agrupados/login/LoginBean.class
+es/agrupados/jsf/LoggedUserController.class
 es/agrupados/jsf/util/JsfUtil.class
 es/agrupados/jsf/RegistrationController$ApplicationUsersControllerConverter.class
 es/agrupados/beans/UserWizard.class
