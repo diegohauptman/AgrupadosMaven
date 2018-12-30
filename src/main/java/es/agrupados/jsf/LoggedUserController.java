@@ -4,6 +4,8 @@ import es.agrupados.persistence.ApplicationUserDetails;
 import es.agrupados.jsf.util.JsfUtil;
 import es.agrupados.jsf.util.JsfUtil.PersistAction;
 import es.agrupados.beans.ApplicationUserDetailsFacade;
+import es.agrupados.beans.OffersFacade;
+import es.agrupados.gmap.CoordinatesService;
 import es.agrupados.persistence.ApplicationUsers;
 
 import java.io.Serializable;
@@ -17,59 +19,140 @@ import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 import javax.servlet.http.HttpSession;
+import org.primefaces.model.map.DefaultMapModel;
+import org.primefaces.model.map.LatLng;
+import org.primefaces.model.map.MapModel;
+import org.primefaces.model.map.Marker;
 
 @Named("loggedUserController")
 @SessionScoped
 public class LoggedUserController implements Serializable {
 
-    @EJB
-    private es.agrupados.beans.ApplicationUserDetailsFacade ejbFacade;
+    @EJB private es.agrupados.beans.ApplicationUserDetailsFacade userFacade;
     private List<ApplicationUserDetails> items = null;
-    private ApplicationUserDetails selected;
+    private ApplicationUserDetails loggedUser;
+    private MapModel model;
+    private Marker marker;
 
     public LoggedUserController() {
     }
-    
+
     @PostConstruct
     public void init() {
         FacesContext context = FacesContext.getCurrentInstance();
         HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
-        ApplicationUsers user = (ApplicationUsers) session.getAttribute("client");
-        System.out.println("User in session: " + user.getUsername());
-        Collection<ApplicationUserDetails> userDetailsList = user.getApplicationUserDetailsCollection();
-        selected = userDetailsList.stream()
-                .filter(userInTheList -> user.getId().equals(userInTheList.getApplicationUsersId().getId()))
-                .findAny()
-                .orElse(null);
+
+        ApplicationUsers clientUser = (ApplicationUsers) session.getAttribute("client");
+        ApplicationUsers businessUser = (ApplicationUsers) session.getAttribute("business");
+
+        if (clientUser != null) {
+
+            System.out.println("User in session: " + clientUser.getUsername());
+            Collection<ApplicationUserDetails> userDetailsList = clientUser.getApplicationUserDetailsCollection();
+            loggedUser = userDetailsList.stream()
+                    .filter(userInTheList -> clientUser.getId().equals(userInTheList.getApplicationUsersId().getId()))
+                    .findAny()
+                    .orElse(null);
+        }
+
+        if (businessUser != null) {
+            System.out.println("User in session: " + businessUser.getUsername());
+            model = new DefaultMapModel();
+            Collection<ApplicationUserDetails> userDetailsList = businessUser.getApplicationUserDetailsCollection();
+            loggedUser = userDetailsList.stream()
+                    .filter(userInTheList -> businessUser.getId().equals(userInTheList.getApplicationUsersId().getId()))
+                    .findAny()
+                    .orElse(null);
+        }
+
+    }
+    
+    
+    /**
+     * Método que añade un marcador al modelo del mapa.
+     */
+    public void addMarker() {
+        model.addOverlay(new Marker(new LatLng(loggedUser.getLatitude(), loggedUser.getLongitude()), loggedUser.getFullAddress()));
+        addMessage(new FacesMessage(FacesMessage.SEVERITY_INFO, "Marker Added", loggedUser.getCoordinatesForMap()));
+    }
+    
+      /**
+     * Método para mostrar un mensaje al contexto.
+     *
+     * @param message String.
+     */
+    public void addMessage(FacesMessage message) {
+        FacesContext.getCurrentInstance().addMessage(null, message);
     }
 
-    public ApplicationUserDetails getSelected() {
-        return selected;
+    /**
+     * Getter del modelo del mapa.
+     *
+     * @return MapModel modelo.
+     */
+    public MapModel getModel() {
+        return model;
     }
 
-    public void setSelected(ApplicationUserDetails selected) {
-        this.selected = selected;
+    /**
+     * Setter del modelo del mapa.
+     *
+     * @param model MapModel.
+     */
+    public void setModel(MapModel model) {
+        this.model = model;
     }
 
+    /**
+     * Método que recupera las coordenadas del API de Google Maps para una
+     * dirección determinada.
+     */
+    public void retrieveCoordinates() {
+        CoordinatesService service = new CoordinatesService();
+        double[] coords = service.getLatitudeLongitude(loggedUser.getFullAddress());
+        loggedUser.setLatitude(coords[0]);
+        loggedUser.setLongitude(coords[1]);
+        System.out.println("Dirección: " + service.getAddress(loggedUser.getLatitude(), loggedUser.getLongitude()));
+        resetModel();
+        addMarker();
+    }
+
+    /**
+     * Getter del marcador del mapa.
+     *
+     * @return Marker marcador del mapa.
+     */
+    public Marker getMarker() {
+        return marker;
+    }
+
+    /**
+     * Método que reinicia el modelo del mapa.
+     */
+    private void resetModel() {
+        model = new DefaultMapModel();
+    }
+    
     protected void setEmbeddableKeys() {
     }
 
     protected void initializeEmbeddableKey() {
     }
 
-    private ApplicationUserDetailsFacade getFacade() {
-        return ejbFacade;
+    private ApplicationUserDetailsFacade getUserFacade() {
+        return userFacade;
     }
 
     public ApplicationUserDetails prepareCreate() {
-        selected = new ApplicationUserDetails();
+        loggedUser = new ApplicationUserDetails();
         initializeEmbeddableKey();
-        return selected;
+        return loggedUser;
     }
 
     public void create() {
@@ -86,30 +169,30 @@ public class LoggedUserController implements Serializable {
     public void destroy() {
         persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("ApplicationUserDetailsDeleted"));
         if (!JsfUtil.isValidationFailed()) {
-            selected = null; // Remove selection
+            loggedUser = null; // Remove selection
             items = null;    // Invalidate list of items to trigger re-query.
         }
     }
 
     public List<ApplicationUserDetails> getItems() {
         if (items == null) {
-            items = getFacade().findAll();
+            items = getUserFacade().findAll();
         }
         return items;
     }
-    
+
     public ApplicationUserDetails getLoggedUser() {
-        return selected;
+        return loggedUser;
     }
-    
+
     private void persist(PersistAction persistAction, String successMessage) {
-        if (selected != null) {
+        if (loggedUser != null) {
             setEmbeddableKeys();
             try {
                 if (persistAction != PersistAction.DELETE) {
-                    getFacade().edit(selected);
+                    getUserFacade().edit(loggedUser);
                 } else {
-                    getFacade().remove(selected);
+                    getUserFacade().remove(loggedUser);
                 }
                 JsfUtil.addSuccessMessage(successMessage);
             } catch (EJBException ex) {
@@ -131,15 +214,15 @@ public class LoggedUserController implements Serializable {
     }
 
     public ApplicationUserDetails getApplicationUserDetails(java.lang.Integer id) {
-        return getFacade().find(id);
+        return getUserFacade().find(id);
     }
 
     public List<ApplicationUserDetails> getItemsAvailableSelectMany() {
-        return getFacade().findAll();
+        return getUserFacade().findAll();
     }
 
     public List<ApplicationUserDetails> getItemsAvailableSelectOne() {
-        return getFacade().findAll();
+        return getUserFacade().findAll();
     }
 
     @FacesConverter(forClass = ApplicationUserDetails.class)
@@ -180,7 +263,5 @@ public class LoggedUserController implements Serializable {
                 return null;
             }
         }
-
     }
-
 }

@@ -9,7 +9,6 @@ import es.agrupados.gmap.CoordinatesService;
 import es.agrupados.persistence.ApplicationUserDetails;
 import es.agrupados.persistence.ApplicationUsers;
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.util.Date;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;

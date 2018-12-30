@@ -45,7 +45,8 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Offers.findByImage", query = "SELECT o FROM Offers o WHERE o.image = :image")
     , @NamedQuery(name = "Offers.findByStartDate", query = "SELECT o FROM Offers o WHERE o.startDate = :startDate")
     , @NamedQuery(name = "Offers.findByEndDate", query = "SELECT o FROM Offers o WHERE o.endDate = :endDate")
-    , @NamedQuery(name = "Offers.findByActive", query = "SELECT o FROM Offers o WHERE o.active = :active")})
+    , @NamedQuery(name = "Offers.findByActive", query = "SELECT o FROM Offers o WHERE o.active = :active")
+    , @NamedQuery(name = "Offers.findByApplicationUsers", query = "SELECT o FROM Offers o WHERE o.applicationUsersId = :applicationUsers")})
 public class Offers implements Serializable {
 
     private static final long serialVersionUID = 1L;

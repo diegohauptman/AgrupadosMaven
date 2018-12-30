@@ -12,10 +12,14 @@
     <h:form>
         <p:menubar>
             
-            <p:menuitem value="Área Empresa" url="/business/BusinessIndex.xhtml" icon="fa fa-user" />
+            <p:menuitem value="Home" url="BusinessIndex.xhtml" icon="fa fa-home" />
             
-            <p:menuitem value="Publica Una Oferta" url="#" icon="fa fa-plus" />
-
+            <p:submenu label="Área Empresa" icon="fa fa-user">
+                <p:menuitem value="Editar Mis Datos" url="BusinessAccountPage.xhtml"  />
+                <p:menuitem value="Editar Ofertas" outcome="EditOffersPage.xhtml" />
+            </p:submenu>
+            <p:menuitem id="createOfferItem" value="Publica Una Oferta" icon="fa fa-plus" url="publishOfferPage.xhtml"  />
+            
             <f:facet name="options">
                 <p:inputText style="margin-right:10px" placeholder="¿Qué estás buscando?"/>
 

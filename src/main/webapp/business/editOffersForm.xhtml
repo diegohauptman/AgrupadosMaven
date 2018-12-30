@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+            <h:form id="BusinessOffersListForm">
+                <p:dataTable id="datalist" value="#{loggedBusinessOfferController.offersList}" var="item"
+                             selectionMode="single" selection="#{loggedBusinessOfferController.offer}"
+                                 paginator="true"
+                                 rowKey="#{item.id}"
+                                 rows="10"
+                                 rowsPerPageTemplate="10,20,30,40,50"
+                                 >
+
+                        <p:ajax event="rowSelect"   update="editButton deleteButton"/>
+                        <p:ajax event="rowUnselect" update="editButton deleteButton"/>
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListOffersTitle_title}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.title}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListOffersTitle_description}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.description}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListOffersTitle_startPrice}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.startPrice}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListOffersTitle_offerPrice}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.offerPrice}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListOffersTitle_image}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.image}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListOffersTitle_startDate}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.startDate}">
+                                <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListOffersTitle_endDate}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.endDate}">
+                                <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListOffersTitle_active}"/>
+                            </f:facet>
+                            <p:selectBooleanCheckbox value="#{item.active}" disabled="true"/>
+                        </p:column>
+                        <f:facet name="footer">
+                            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":BusinessOffersEditForm,datalist" oncomplete="PF('BusinessOffersEditDialog').show()" disabled="#{empty loggedBusinessOfferController.offer}"/>
+                            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{offersController.destroy}" update=":growl,datalist" disabled="#{empty loggedBusinessOfferController.offer}"/>
+                        </f:facet>
+                    </p:dataTable>
+            </h:form>
+            <ui:include src="EditOffersDialog.xhtml"/>
+    </ui:composition>
+
+</html>

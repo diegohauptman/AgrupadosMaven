@@ -5,9 +5,12 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 template="/templateMain.xhtml"> 
     
+    <ui:define name="content">
+        <ui:include src="offerForm.xhtml"></ui:include>
+    </ui:define>
+    
     <ui:define name="top-menu">
         <ui:include src="/business/menuBusiness.xhtml"></ui:include>
     </ui:define>
-
 
 </ui:composition>

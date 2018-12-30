@@ -4,12 +4,14 @@ import es.agrupados.persistence.Offers;
 import es.agrupados.jsf.util.JsfUtil;
 import es.agrupados.jsf.util.JsfUtil.PersistAction;
 import es.agrupados.beans.OffersFacade;
+import es.agrupados.persistence.ApplicationUsers;
 
 import java.io.Serializable;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.inject.Named;
@@ -32,6 +34,11 @@ public class OffersController implements Serializable {
     }
 
     public Offers getSelected() {
+        return selected;
+    }
+    
+    public Offers getLoggedBusinessOffer(ApplicationUsers user){
+        selected.setApplicationUsersId(user);
         return selected;
     }
 
@@ -73,12 +80,30 @@ public class OffersController implements Serializable {
             items = null;    // Invalidate list of items to trigger re-query.
         }
     }
-
+    
+    public List<Offers> getOffersByUsers(ApplicationUsers user){
+        return getFacade().getOffersByUsers(user);
+    }
+    
     public List<Offers> getItems() {
         if (items == null) {
             items = getFacade().findAll();
         }
         return items;
+    }
+    
+    /**
+     * Returns a list of active offers
+     * @return activeItems
+     */
+    public List<Offers> getActiveItems() {
+        List<Offers> activeItems;
+        items = getFacade().findAll();
+        activeItems = items.stream()
+                .filter(offer -> (offer.getActive() == true))
+                .collect(Collectors.toList());
+
+        return activeItems;
     }
 
     private void persist(PersistAction persistAction, String successMessage) {

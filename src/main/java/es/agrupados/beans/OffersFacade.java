@@ -5,10 +5,13 @@
  */
 package es.agrupados.beans;
 
+import es.agrupados.persistence.ApplicationUsers;
 import es.agrupados.persistence.Offers;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
 /**
  *
@@ -27,6 +30,15 @@ public class OffersFacade extends AbstractFacade<Offers> {
 
     public OffersFacade() {
         super(Offers.class);
+    }
+    
+     public List<Offers> getOffersByUsers(ApplicationUsers user){
+        TypedQuery<Offers> query = em.createNamedQuery(
+                "Offers.findByApplicationUsers", Offers.class);
+        query.setParameter("applicationUsers", user);
+        List<Offers> offersList = query.getResultList();
+        return offersList;
+        
     }
     
 }

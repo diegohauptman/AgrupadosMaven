@@ -60,7 +60,7 @@ public class AuthClientFilter implements Filter {
         System.out.println("URI: " + uri);
         System.out.println("Session: " + session);
         System.out.println("Context: " + request.getContextPath());
-        boolean isClient= session != null ? (session.getAttribute("client") != null) : false;
+        boolean isClient = session != null ? (session.getAttribute("client") != null) : false;
         System.out.println("Is Client: " + isClient);
         if (!isClient && uri.contains("/client/")) {
             response.sendRedirect(request.getContextPath() + "/index.xhtml");

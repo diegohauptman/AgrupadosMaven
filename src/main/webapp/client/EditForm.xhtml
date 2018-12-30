@@ -20,8 +20,9 @@
             });
         </script>
         <h:form id="ApplicationUserDetailsEditForm">
+            <h2>Personal Information</h2>
             <p:growl id="growl"/>
-            <h:panelGroup id="display" >
+            <h:panelGroup id="display">
                 <p:panelGrid columns="2" columnClasses="column" rendered="#{loggedUserController.loggedUser != null}">
                         <p:outputLabel value="#{bundle.EditApplicationUserDetailsLabel_name}" for="name" />
                         <p:inplace editor="true" pt:data-show-initial="true">

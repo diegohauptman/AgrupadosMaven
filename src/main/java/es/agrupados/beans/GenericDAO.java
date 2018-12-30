@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.Stateless;
+import javax.enterprise.context.SessionScoped;
+import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -32,8 +34,9 @@ import javax.ws.rs.NotFoundException;
  * @author Rodrigo Uchôa (http://rodrigouchoa.wordpress.com)
  *
  */
-@Stateless
-public class GenericDAO {
+@Named("genericDao")
+@SessionScoped
+public class GenericDAO implements Serializable{
 	
 	/*
 	 * A "copy" of the Hibernate's API as this doesn't exist
