@@ -30,15 +30,20 @@
         <!--Header-->
         <div title="header" class="w3-container w3-blue w3-theme w3-padding w3-animate-bottom">
             <ui:insert name="header">
+                <ui:include src="header.xhtml" />
             </ui:insert>
         </div>
         <!--Content-->
         <div id="content" class="center_content">
-            <ui:insert name="content"></ui:insert>
+            <ui:insert name="content">
+                <ui:include src="offersView.xhtml" />
+            </ui:insert>
         </div>
          <!--Footer-->
         <div id="bottom">
-            <ui:insert name="bottom"></ui:insert>
+            <ui:insert name="bottom">
+                <ui:include src="footer.xhtml"/>
+            </ui:insert>
         </div>
 
     </h:body>
