@@ -37,11 +37,6 @@ public class OffersController implements Serializable {
         return selected;
     }
     
-    public Offers getLoggedBusinessOffer(ApplicationUsers user){
-        selected.setApplicationUsersId(user);
-        return selected;
-    }
-
     public void setSelected(Offers selected) {
         this.selected = selected;
     }

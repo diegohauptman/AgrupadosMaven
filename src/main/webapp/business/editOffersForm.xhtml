@@ -6,14 +6,18 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
 
-    <ui:composition>
+    <ui:composition id="editOffers">
+        <f:metadata>
+            <f:event type="preRenderView" listener="#{loggedBusinessOfferController.init()}" />
+        </f:metadata>
 
             <h:form id="BusinessOffersListForm">
+                
                 <p:dataTable id="datalist" value="#{loggedBusinessOfferController.offersList}" var="item"
                              selectionMode="single" selection="#{loggedBusinessOfferController.offer}"
                                  paginator="true"
                                  rowKey="#{item.id}"
-                                 rows="10"
+                                 rows="20"
                                  rowsPerPageTemplate="10,20,30,40,50"
                                  >
 
@@ -73,8 +77,8 @@
                             <p:selectBooleanCheckbox value="#{item.active}" disabled="true"/>
                         </p:column>
                         <f:facet name="footer">
-                            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":BusinessOffersEditForm,datalist" oncomplete="PF('BusinessOffersEditDialog').show()" disabled="#{empty loggedBusinessOfferController.offer}"/>
-                            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{offersController.destroy}" update=":growl,datalist" disabled="#{empty loggedBusinessOfferController.offer}"/>
+                            <p:commandButton id="editButton"  icon="ui-icon-pencil" value="#{bundle.Edit}" update=":BusinessOffersEditForm" oncomplete="PF('BusinessOffersEditDialog').show()" disabled="#{empty loggedBusinessOfferController.offer}" />
+                            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{loggedBusinessOfferController.destroy}" update="datalist" ajax="true" disabled="#{empty loggedBusinessOfferController.offer}"/>
                         </f:facet>
                     </p:dataTable>
             </h:form>

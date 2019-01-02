@@ -70,7 +70,6 @@ public class LoggedUserController implements Serializable {
                     .findAny()
                     .orElse(null);
         }
-
     }
     
     
