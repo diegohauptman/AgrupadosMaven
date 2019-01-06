@@ -109,9 +109,10 @@ public class OffersController implements Serializable {
         return activeItems;
     }
     
-    public void addToCart(Offers offer) {
+    public String addToCart(Offers offer) {
         cartList.add(offer);
-         isAdded = true;
+        isAdded = true;
+        return "ShoppingCartPage?faces-redirect=true";
     }
 
     public void removeFromCart(Offers offer) {
