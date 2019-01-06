@@ -7,11 +7,13 @@ import es.agrupados.beans.OffersFacade;
 import es.agrupados.persistence.ApplicationUsers;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.inject.Named;
@@ -25,12 +27,18 @@ import javax.faces.convert.FacesConverter;
 @SessionScoped
 public class OffersController implements Serializable {
 
-    @EJB
-    private es.agrupados.beans.OffersFacade ejbFacade;
+    @EJB private es.agrupados.beans.OffersFacade ejbFacade;
     private List<Offers> items = null;
     private Offers selected;
+    private List<Offers> cartList;
+    private boolean isAdded;
 
     public OffersController() {
+    }
+    
+    @PostConstruct
+    public void init(){
+        cartList = new ArrayList<>();
     }
 
     public Offers getSelected() {
@@ -100,6 +108,32 @@ public class OffersController implements Serializable {
 
         return activeItems;
     }
+    
+    public void addToCart(Offers offer) {
+        cartList.add(offer);
+         isAdded = true;
+    }
+
+    public void removeFromCart(Offers offer) {
+        cartList.remove(offer);
+        isAdded = false;
+    }
+
+    public List<Offers> getCartList() {
+        return cartList;
+    }
+    
+    public double getCartTotal(){
+        double sum = cartList.stream()
+                .mapToDouble(item -> item.getOfferPrice())
+                .sum();
+        return sum;
+    }
+    
+    public boolean getIsAdded(){
+        return isAdded;
+    }
+    
 
     private void persist(PersistAction persistAction, String successMessage) {
         if (selected != null) {
