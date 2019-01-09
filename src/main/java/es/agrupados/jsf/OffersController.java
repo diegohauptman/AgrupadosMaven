@@ -119,6 +119,10 @@ public class OffersController implements Serializable {
         cartList.remove(offer);
         isAdded = false;
     }
+    
+    public void clearCartList(){
+        cartList.clear();
+    }
 
     public List<Offers> getCartList() {
         return cartList;

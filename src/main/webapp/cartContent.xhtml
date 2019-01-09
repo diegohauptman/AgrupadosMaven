@@ -57,8 +57,10 @@
 
 
     <h:form id="form">
+        
+        <p:growl id="growl" showDetail="true" sticky="true" /> 
 
-        <p:repeat var="item" value="#{offersController.cartList}">
+        <p:repeat var="item" value="#{cartController.cartList}">
 
 
             <p:panel style="border: none">
@@ -67,7 +69,7 @@
                     <h4>#{item.title}</h4>
                     <p> <span style="color: green; font-size: medium">€#{item.offerPrice}</span></p>
                     <h:outputText value="#{item.description}"/>
-                    <p:commandButton value="Eliminar" action="#{offersController.removeFromCart(item)}" update="@form" class="w3-button w3-margin-bottom"></p:commandButton>
+                    <p:commandButton value="Eliminar" action="#{cartController.removeFromCart(item)}" update="@form" class="w3-button w3-margin-bottom"></p:commandButton>
                 </h:panelGrid>
             </p:panel>
             <hr/>
@@ -75,9 +77,9 @@
 
         <p:panel id="shoppingPanel" styleClass="shoppingPanel">
             <h:outputLabel  value="Total: " style="font-size: 30px"></h:outputLabel>
-            <h:outputText value="#{offersController.cartTotal}" style="font-size: 40px"></h:outputText>
+            <h:outputText value="#{cartController.cartTotal}" style="font-size: 40px"></h:outputText>
             <br/>
-            <p:commandButton value="Comprar" styleClass="shoppingCommandButton"></p:commandButton>
+            <p:commandButton value="Comprar" styleClass="shoppingCommandButton" action="#{cartController.save()}" update="@form"></p:commandButton>
         </p:panel>
 
         <p:dialog header="Offer Info" widgetVar="carDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">

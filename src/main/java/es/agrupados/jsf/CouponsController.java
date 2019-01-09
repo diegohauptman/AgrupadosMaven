@@ -27,7 +27,6 @@ public class CouponsController implements Serializable {
     private es.agrupados.beans.CouponsFacade ejbFacade;
     private List<Coupons> items = null;
     private Coupons selected;
-    private List<Coupons> cartList;
 
     public CouponsController() {
     }
@@ -82,19 +81,6 @@ public class CouponsController implements Serializable {
         return items;
     }
     
-    public List<Coupons> getCartList() {
-        return cartList;
-    }
-    
-    public void addCoupon(){
-        
-        cartList.add(selected);
-    }
-    
-    public void removeCoupon(){
-        cartList.remove(selected);
-    }
-
     private void persist(PersistAction persistAction, String successMessage) {
         if (selected != null) {
             setEmbeddableKeys();

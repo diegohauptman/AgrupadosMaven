@@ -36,7 +36,7 @@
                         <h3>#{item.title}</h3>
                         <p class="w3-opacity">De <s>€#{item.startPrice}</s> por <span style="color:green; font-size: large">€#{item.offerPrice}</span></p>
                         <p>#{item.description}</p>
-                        <p:commandButton value="Add to Cart" action="#{offersController.addToCart(item)}" class="w3-button w3-margin-bottom"></p:commandButton>
+                        <p:commandButton value="Add to Cart" action="#{cartController.addToCart(item)}" class="w3-button w3-margin-bottom"></p:commandButton>
                     </div>
                 </div>
                     <p:commandLink update=":form:carDetail" oncomplete="PF('carDialog').show()" title="View Detail">
