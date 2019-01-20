@@ -35,9 +35,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- * Clase que ejerce de filtro para permitir o no el acceso a la carpeta
- * "business". El usuario debe estar logueado y tener como rol "business".
- *
+ * Filter class to allow or not access to the "business" folder. The user 
+ * must be logged in and to have "business" role.
  * @author Diego
  */
 public class AuthBusinessFilter implements Filter {
@@ -65,12 +64,11 @@ public class AuthBusinessFilter implements Filter {
         System.out.println("Is Business: " + isBusiness);
         if (!isBusiness && uri.contains("/business/")) {
             response.sendRedirect(request.getContextPath() + "/index.xhtml");
-        }else if (isBusiness && (uri.endsWith("/index.xhtml") || uri.equals("/Agrupados/"))){
+        }else if (isBusiness && (uri.endsWith("/index.xhtml") || uri.equals("/AgrupadosMaven/"))){
             response.sendRedirect(request.getContextPath() + "/business/BusinessIndex.xhtml");
         } else {
             chain.doFilter(request, response);
         }
-        //System.out.println("Session attribute: " + session.getAttribute("admin").toString());
     }
 
     @Override

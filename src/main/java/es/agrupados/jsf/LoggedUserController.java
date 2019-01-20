@@ -4,6 +4,7 @@ import es.agrupados.persistence.ApplicationUserDetails;
 import es.agrupados.jsf.util.JsfUtil;
 import es.agrupados.jsf.util.JsfUtil.PersistAction;
 import es.agrupados.beans.ApplicationUserDetailsFacade;
+import es.agrupados.beans.ApplicationUsersFacade;
 import es.agrupados.beans.OffersFacade;
 import es.agrupados.gmap.CoordinatesService;
 import es.agrupados.persistence.ApplicationUsers;
@@ -30,11 +31,17 @@ import org.primefaces.model.map.LatLng;
 import org.primefaces.model.map.MapModel;
 import org.primefaces.model.map.Marker;
 
+/**
+ * Class to manage the edit form for logged users. It checks if the user in session has 
+ * Business or Client roles and defines specific methods to be used for each role.
+ * @author Diego Hauptman
+ */
 @Named("loggedUserController")
 @SessionScoped
 public class LoggedUserController implements Serializable {
 
     @EJB private es.agrupados.beans.ApplicationUserDetailsFacade userFacade;
+    @EJB ApplicationUsersFacade applicationUsersFacade;
     private List<ApplicationUserDetails> items = null;
     private ApplicationUserDetails loggedUser;
     private MapModel model;
@@ -43,6 +50,10 @@ public class LoggedUserController implements Serializable {
     public LoggedUserController() {
     }
 
+    /**
+     * Initializes context and session objects, checks if the user is logged 
+     * as Business or Client and retrieves the specific logged user.
+     */
     @PostConstruct
     public void init() {
         FacesContext context = FacesContext.getCurrentInstance();
@@ -50,31 +61,50 @@ public class LoggedUserController implements Serializable {
 
         ApplicationUsers clientUser = (ApplicationUsers) session.getAttribute("client");
         ApplicationUsers businessUser = (ApplicationUsers) session.getAttribute("business");
-
+        
+        
+        
+        //Evalua si el usuario logueado es cliente
         if (clientUser != null) {
-
             System.out.println("User in session: " + clientUser.getUsername());
-            Collection<ApplicationUserDetails> userDetailsList = clientUser.getApplicationUserDetailsCollection();
-            loggedUser = userDetailsList.stream()
-                    .filter(userInTheList -> clientUser.getId().equals(userInTheList.getApplicationUsersId().getId()))
-                    .findAny()
-                    .orElse(null);
+            loggedUser = userFacade.findByApplicationUsers(clientUser);
+            
+//            //FIXME Retrieve info FROM DATABASE!!!!
+//            Collection<ApplicationUserDetails> userDetailsList = clientUser.getApplicationUserDetailsCollection();
+//            System.out.println("User Details Collection: " + userDetailsList);
+//            
+//            
+//            
+//            //Recupera los detalles del usuario logueado.
+//            loggedUser = userDetailsList.stream()
+//                    .filter(userInTheList -> clientUser.getId().equals(userInTheList.getApplicationUsersId().getId()))
+//                    .findAny()
+//                    .orElse(null);
+            System.out.println("Logged User in LoggedUserController class: " + loggedUser);
+            
         }
-
+        //Evalua si usuario logueado es business
         if (businessUser != null) {
+            
             System.out.println("User in session: " + businessUser.getUsername());
+            loggedUser = userFacade.findByApplicationUsers(businessUser);
+            
             model = new DefaultMapModel();
-            Collection<ApplicationUserDetails> userDetailsList = businessUser.getApplicationUserDetailsCollection();
-            loggedUser = userDetailsList.stream()
-                    .filter(userInTheList -> businessUser.getId().equals(userInTheList.getApplicationUsersId().getId()))
-                    .findAny()
-                    .orElse(null);
+//            Collection<ApplicationUserDetails> userDetailsList = businessUser.getApplicationUserDetailsCollection();
+//            //Recupera los detalled del usuario logueado.
+//            loggedUser = userDetailsList.stream()
+//                    .filter(userInTheList -> businessUser.getId().equals(userInTheList.getApplicationUsersId().getId()))
+//                    .findAny()
+//                    .orElse(null);
+            
+            System.out.println("Logged User in LoggedUserController class: " + loggedUser);
+            
         }
     }
     
     
     /**
-     * Método que añade un marcador al modelo del mapa.
+     * Adds a marker to the maps model.
      */
     public void addMarker() {
         model.addOverlay(new Marker(new LatLng(loggedUser.getLatitude(), loggedUser.getLongitude()), loggedUser.getFullAddress()));
@@ -82,7 +112,7 @@ public class LoggedUserController implements Serializable {
     }
     
       /**
-     * Método para mostrar un mensaje al contexto.
+     * Shows a message.
      *
      * @param message String.
      */
@@ -91,7 +121,7 @@ public class LoggedUserController implements Serializable {
     }
 
     /**
-     * Getter del modelo del mapa.
+     * Getter of the map model.
      *
      * @return MapModel modelo.
      */
@@ -100,7 +130,7 @@ public class LoggedUserController implements Serializable {
     }
 
     /**
-     * Setter del modelo del mapa.
+     * Setter of the map's model..
      *
      * @param model MapModel.
      */
@@ -109,8 +139,8 @@ public class LoggedUserController implements Serializable {
     }
 
     /**
-     * Método que recupera las coordenadas del API de Google Maps para una
-     * dirección determinada.
+     * Retrieves the coordinates of the Google Maps API for a specific address. 
+     * 
      */
     public void retrieveCoordinates() {
         CoordinatesService service = new CoordinatesService();
@@ -123,16 +153,16 @@ public class LoggedUserController implements Serializable {
     }
 
     /**
-     * Getter del marcador del mapa.
+     * Getter of the map's marker.
      *
-     * @return Marker marcador del mapa.
+     * @return Marker map's marker.
      */
     public Marker getMarker() {
         return marker;
     }
 
     /**
-     * Método que reinicia el modelo del mapa.
+     * Re-initializes the map's model.
      */
     private void resetModel() {
         model = new DefaultMapModel();
@@ -148,38 +178,45 @@ public class LoggedUserController implements Serializable {
         return userFacade;
     }
 
-    public ApplicationUserDetails prepareCreate() {
-        loggedUser = new ApplicationUserDetails();
-        initializeEmbeddableKey();
-        return loggedUser;
-    }
+//    public ApplicationUserDetails prepareCreate() {
+//        loggedUser = new ApplicationUserDetails();
+//        initializeEmbeddableKey();
+//        return loggedUser;
+//    }
 
-    public void create() {
-        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("ApplicationUserDetailsCreated"));
-        if (!JsfUtil.isValidationFailed()) {
-            items = null;    // Invalidate list of items to trigger re-query.
-        }
-    }
+//    public void create() {
+//        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("ApplicationUserDetailsCreated"));
+//        if (!JsfUtil.isValidationFailed()) {
+//            items = null;    // Invalidate list of items to trigger re-query.
+//        }
+//    }
 
+    /**
+     * Updates the user information.
+     */
     public void update() {
         persist(PersistAction.UPDATE, "Successfully Updated!");
     }
 
-    public void destroy() {
-        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("ApplicationUserDetailsDeleted"));
-        if (!JsfUtil.isValidationFailed()) {
-            loggedUser = null; // Remove selection
-            items = null;    // Invalidate list of items to trigger re-query.
-        }
-    }
+//    public void destroy() {
+//        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("ApplicationUserDetailsDeleted"));
+//        if (!JsfUtil.isValidationFailed()) {
+//            loggedUser = null; // Remove selection
+//            items = null;    // Invalidate list of items to trigger re-query.
+//        }
+//    }
 
-    public List<ApplicationUserDetails> getItems() {
-        if (items == null) {
-            items = getUserFacade().findAll();
-        }
-        return items;
-    }
+//    public List<ApplicationUserDetails> getItems() {
+//        if (items == null) {
+//            items = getUserFacade().findAll();
+//        }
+//        return items;
+//    }
 
+    /**
+     * Getter of the logged user.
+     * @return loggedUser
+     */
     public ApplicationUserDetails getLoggedUser() {
         return loggedUser;
     }
@@ -212,55 +249,55 @@ public class LoggedUserController implements Serializable {
         }
     }
 
-    public ApplicationUserDetails getApplicationUserDetails(java.lang.Integer id) {
-        return getUserFacade().find(id);
-    }
+//    public ApplicationUserDetails getApplicationUserDetails(java.lang.Integer id) {
+//        return getUserFacade().find(id);
+//    }
+//
+//    public List<ApplicationUserDetails> getItemsAvailableSelectMany() {
+//        return getUserFacade().findAll();
+//    }
+//
+//    public List<ApplicationUserDetails> getItemsAvailableSelectOne() {
+//        return getUserFacade().findAll();
+//    }
 
-    public List<ApplicationUserDetails> getItemsAvailableSelectMany() {
-        return getUserFacade().findAll();
-    }
-
-    public List<ApplicationUserDetails> getItemsAvailableSelectOne() {
-        return getUserFacade().findAll();
-    }
-
-    @FacesConverter(forClass = ApplicationUserDetails.class)
-    public static class ApplicationUserDetailsControllerConverter implements Converter {
-
-        @Override
-        public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
-            if (value == null || value.length() == 0) {
-                return null;
-            }
-            ApplicationUserDetailsController controller = (ApplicationUserDetailsController) facesContext.getApplication().getELResolver().
-                    getValue(facesContext.getELContext(), null, "loggedUserController");
-            return controller.getApplicationUserDetails(getKey(value));
-        }
-
-        java.lang.Integer getKey(String value) {
-            java.lang.Integer key;
-            key = Integer.valueOf(value);
-            return key;
-        }
-
-        String getStringKey(java.lang.Integer value) {
-            StringBuilder sb = new StringBuilder();
-            sb.append(value);
-            return sb.toString();
-        }
-
-        @Override
-        public String getAsString(FacesContext facesContext, UIComponent component, Object object) {
-            if (object == null) {
-                return null;
-            }
-            if (object instanceof ApplicationUserDetails) {
-                ApplicationUserDetails o = (ApplicationUserDetails) object;
-                return getStringKey(o.getId());
-            } else {
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), ApplicationUserDetails.class.getName()});
-                return null;
-            }
-        }
-    }
+//    @FacesConverter(forClass = ApplicationUserDetails.class)
+//    public static class ApplicationUserDetailsControllerConverter implements Converter {
+//
+//        @Override
+//        public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
+//            if (value == null || value.length() == 0) {
+//                return null;
+//            }
+//            ApplicationUserDetailsController controller = (ApplicationUserDetailsController) facesContext.getApplication().getELResolver().
+//                    getValue(facesContext.getELContext(), null, "loggedUserController");
+//            return controller.getApplicationUserDetails(getKey(value));
+//        }
+//
+//        java.lang.Integer getKey(String value) {
+//            java.lang.Integer key;
+//            key = Integer.valueOf(value);
+//            return key;
+//        }
+//
+//        String getStringKey(java.lang.Integer value) {
+//            StringBuilder sb = new StringBuilder();
+//            sb.append(value);
+//            return sb.toString();
+//        }
+//
+//        @Override
+//        public String getAsString(FacesContext facesContext, UIComponent component, Object object) {
+//            if (object == null) {
+//                return null;
+//            }
+//            if (object instanceof ApplicationUserDetails) {
+//                ApplicationUserDetails o = (ApplicationUserDetails) object;
+//                return getStringKey(o.getId());
+//            } else {
+//                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), ApplicationUserDetails.class.getName()});
+//                return null;
+//            }
+//        }
+//    }
 }

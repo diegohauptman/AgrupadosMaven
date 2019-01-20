@@ -15,6 +15,11 @@ import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 import org.omnifaces.cdi.ViewScoped;
 
+/**
+ * Class to manage users logged as Business. Define the methods to create, 
+ * update and delete offers.
+ * @author mundakamacbook
+ */
 @Named("loggedBusinessOfferController")
 @ViewScoped
 public class LoggedBusinessOfferController implements Serializable {
@@ -40,6 +45,10 @@ public class LoggedBusinessOfferController implements Serializable {
         offersList = offersFacade.getOffersByUsers(loggedUser);
     }
     
+    /**
+     * Creates a new offer
+     * @return
+     */
     public String save(){
         createOffer.setApplicationUsersId(loggedUser);
         offersFacade.create(createOffer);
@@ -51,39 +60,58 @@ public class LoggedBusinessOfferController implements Serializable {
         return view.getViewId() + "?faces-redirect=true";
     }
     
-    public String cancel() {
-        UIViewRoot view = FacesContext.getCurrentInstance().getViewRoot();
-        FacesMessage msg = new FacesMessage("Cancelada.");
-        FacesContext context = FacesContext.getCurrentInstance();
-        context.addMessage(null, msg);
-        context.getExternalContext().getFlash().setKeepMessages(true);
-        return view.getViewId() + "?faces-redirect=true";
-    }
     
+//    public String cancel() {
+//        UIViewRoot view = FacesContext.getCurrentInstance().getViewRoot();
+//        FacesMessage msg = new FacesMessage("Cancelada.");
+//        FacesContext context = FacesContext.getCurrentInstance();
+//        context.addMessage(null, msg);
+//        context.getExternalContext().getFlash().setKeepMessages(true);
+//        return view.getViewId() + "?faces-redirect=true";
+//    }
+
+    /**
+     * Updates the offer
+     */
     public void update(){
         offersFacade.edit(offer);
     }
     
-     public void destroy() {
+    /**
+     * Removes an offer.
+     */
+    public void destroy() {
         offersFacade.remove(offer);
         offer = null; // Remove selection
         offersList = null;    // Invalidate list of items to trigger re-query.
     }
     
+    /**
+     * Getter of the offer for edit form
+     * @return
+     */
     public Offers getOffer(){
         return offer; 
     }
     
+    public void setOffer(Offers offer){
+        this.offer = offer;
+    }
+    
+    /**
+     * Getter for the offer to be used in the for to create offers.
+     * @return
+     */
     public Offers getCreateOffers(){
          if(createOffer == null)
             createOffer = new Offers();
          return createOffer;
     }
 
-    public void setOffer(Offers offer) {
-        this.offer = offer;
-    }
-    
+    /**
+     * Getter of the offers list.
+     * @return
+     */
     public List<Offers> getOffersList() {
         return offersList;
     }

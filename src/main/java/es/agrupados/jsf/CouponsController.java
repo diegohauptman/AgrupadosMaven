@@ -4,6 +4,8 @@ import es.agrupados.persistence.Coupons;
 import es.agrupados.jsf.util.JsfUtil;
 import es.agrupados.jsf.util.JsfUtil.PersistAction;
 import es.agrupados.beans.CouponsFacade;
+import es.agrupados.persistence.ApplicationUsers;
+import es.agrupados.persistence.Offers;
 
 import java.io.Serializable;
 import java.util.List;
@@ -18,6 +20,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import javax.servlet.http.HttpSession;
 
 @Named("couponsController")
 @SessionScoped
@@ -79,6 +82,13 @@ public class CouponsController implements Serializable {
             items = getFacade().findAll();
         }
         return items;
+    }
+    
+    public List<Coupons> getCouponsByUsers(){
+        FacesContext context = FacesContext.getCurrentInstance();
+        HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
+        ApplicationUsers user = (ApplicationUsers) session.getAttribute("client");
+        return getFacade().getCouponsByUsers(user);
     }
     
     private void persist(PersistAction persistAction, String successMessage) {

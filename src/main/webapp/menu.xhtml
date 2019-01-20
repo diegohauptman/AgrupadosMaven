@@ -10,8 +10,8 @@
         <h:outputStylesheet name="/css/cssLayout.css"/>
         <h:outputStylesheet library="css" name="jsfcrud.css"/>
     </h:head>
-    <h:form>
-        <p:menubar>
+    <h:form id="menuform">
+        <p:menubar id="menubar">
 
             <p:menuitem value="Home" url="index.xhtml" icon="fa fa-home" />
 
@@ -38,12 +38,12 @@
 
                 <p:growl id="growl" sticky="true" showDetail="true" life="3000" />
 
-                <p:dialog header="Login" widgetVar="dlg" resizable="false">
+                <p:dialog id="logindialog" header="Login" widgetVar="dlg" resizable="false">
                     <h:panelGrid columns="2" cellpadding="5">
-                        <h:outputLabel for="username" value="Username:" />
+                        <h:outputLabel for="username" value="Nombre de usuário:" />
                         <p:inputText id="username" value="#{userLoginView.user.username}" required="true" label="Nombre de Usuário" />
 
-                        <h:outputLabel for="password" value="Password:" />
+                        <h:outputLabel for="password" value="Contraseña:" />
                         <p:password id="password" value="#{userLoginView.user.password}" required="true" label="password" />
 
                         <f:facet name="footer">
@@ -67,5 +67,5 @@
             </f:facet>
         </p:menubar>
     </h:form>
-
+    
 </ui:composition>

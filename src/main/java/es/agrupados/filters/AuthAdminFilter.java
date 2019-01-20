@@ -36,10 +36,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- * Clase que ejerce de filtro para permitir o no el acceso a la carpeta
- * "administrator". El usuario debe estar logueado y tener como rol "admin".
- *
- * @author Juan Jos� Hern�ndez Alonso.
+ * Filter class to allow or not access to the "administrator" folder. The user 
+ * must be logged in and to have "admin" role.
+ * 
+ * @author Diego Hauptman.
  */
 public class AuthAdminFilter implements Filter {
 
@@ -68,12 +68,11 @@ public class AuthAdminFilter implements Filter {
         System.out.println("Is Admin: " + isAdmin);
         if (!isAdmin && uri.contains("/administrator/")) {
             response.sendRedirect(request.getContextPath() + "/index.xhtml");
-        }else if (isAdmin && (uri.endsWith("/index.xhtml") || uri.equals("/Agrupados/"))){
+        }else if (isAdmin && (uri.endsWith("/index.xhtml") || uri.equals("/AgrupadosMaven/"))){
             response.sendRedirect(request.getContextPath() + "/administrator/AdminIndex.xhtml");
         } else {
             chain.doFilter(request, response);
         }
-        //System.out.println("Session attribute: " + session.getAttribute("admin").toString());
     }
 
     @Override

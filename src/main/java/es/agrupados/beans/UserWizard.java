@@ -98,7 +98,7 @@ public class UserWizard implements Serializable {
      */
     public void addMarker() {
         model.addOverlay(new Marker(new LatLng(userDetails.getLatitude(), userDetails.getLongitude()), userDetails.getFullAddress()));
-        addMessage(new FacesMessage(FacesMessage.SEVERITY_INFO, "Marker Added", userDetails.getCoordinatesForMap()));
+        //addMessage(new FacesMessage(FacesMessage.SEVERITY_INFO, "Marker Added", userDetails.getCoordinatesForMap()));
     }
 
     /**

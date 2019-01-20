@@ -35,24 +35,29 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- * Clase que ejerce de filtro para permitir o no el acceso a la carpeta
- * "user". El usuario debe estar logueado.
+ * Filter class to allow or not access to the "client" folder. The user 
+ * must be logged in and to have "client" role.
  *
  * @author Juan Jos� Hern�ndez Alonso.
  */
 public class AuthClientFilter implements Filter {
- 
+    
+    private boolean isClient;
     private FilterConfig configuration;
- 
+
+    public boolean isIsClient() {
+        return isClient;
+    }
+    
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
         this.configuration = filterConfig;
     }
- 
+
     @Override
-    public void doFilter(ServletRequest req, ServletResponse res, 
+    public void doFilter(ServletRequest req, ServletResponse res,
             FilterChain chain) throws IOException, ServletException {
-         System.out.println("Inside Client Filter");
+        System.out.println("Inside Client Filter");
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) res;
         String uri = request.getRequestURI();
@@ -60,21 +65,20 @@ public class AuthClientFilter implements Filter {
         System.out.println("URI: " + uri);
         System.out.println("Session: " + session);
         System.out.println("Context: " + request.getContextPath());
-        boolean isClient = session != null ? (session.getAttribute("client") != null) : false;
+        isClient = session != null ? (session.getAttribute("client") != null) : false;
         System.out.println("Is Client: " + isClient);
         if (!isClient && uri.contains("/client/")) {
             response.sendRedirect(request.getContextPath() + "/index.xhtml");
-        }else if (isClient && (uri.endsWith("/index.xhtml") || uri.equals("/Agrupados/"))){
+        } else if (isClient && (uri.endsWith("/index.xhtml") || uri.equals("/AgrupadosMaven/"))) {
             response.sendRedirect(request.getContextPath() + "/client/ClientIndex.xhtml");
         } else {
             chain.doFilter(request, response);
         }
-        //System.out.println("Session attribute: " + session.getAttribute("client").toString());
     }
- 
+
     @Override
     public void destroy() {
         this.configuration = null;
     }
- 
+
 }

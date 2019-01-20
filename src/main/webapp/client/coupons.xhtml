@@ -34,59 +34,39 @@
             width: 25%;
         }
 
-        .shoppingCommandButton {
-            font-size: 25px !important;
-            background-color: red !important;
-
-        }
-
-        .shoppingCommandButton:hover
-        {
-            background-image:none !important;
-            background-color: brown !important
-        }
-        
-        .shoppingPanel{
-            text-align: center;
-            background-color: #ffffff;
-            border: none;
-        }
-
 
     </style>
 
 
     <h:form id="form">
-       
-        <p:growl id="growl" showDetail="true" sticky="false" /> 
 
-        <p:repeat var="item" value="#{cartController.cartList}">
+        <p:growl id="growl" showDetail="true" sticky="true" /> 
 
-
+        <p:repeat var="item" value="#{couponsController.couponsByUsers}">
             <p:panel style="border: none">
-                <h:panelGrid id="cartGrid" columns="4" style="width:100%" columnClasses="logo,detail,button1,button2" cellpadding="20">
-                    <p:graphicImage value="https://www.w3schools.com/w3images/ocean2.jpg" alt="#{item.title}" style="width:80%"/>
-                    <h4>#{item.title}</h4>
-                    <p> <span style="color: green; font-size: medium">€#{item.offerPrice}</span></p>
-                    <h:outputText value="#{item.description}"/>
-                    <p:commandButton value="Eliminar" action="#{cartController.removeFromCart(item)}" update="@form" class="w3-button w3-margin-bottom"></p:commandButton>
+                <h:panelGrid id="cartGrid" columns="4" style="width:70%" columnClasses="logo,detail,button1,button2" cellpadding="20">
+                    <p:graphicImage value="https://www.w3schools.com/w3images/ocean2.jpg" alt="#{item.offersId.title}" style="width:80%"/>
+                    <p> <span style="color: green; font-size: medium">#{item.offersId.title}</span></p>
+                    <p>#{item.offersId.description}</p>
+                    <p:outputPanel>
+
+                        <p>Fecha de la compra:</p>
+                        <h:outputText id="date" value="#{item.purchaseDatetime}">
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </h:outputText>
+                        
+                    </p:outputPanel>
+
                 </h:panelGrid>
             </p:panel>
             <hr/>
         </p:repeat>
 
-        <p:panel id="shoppingPanel" styleClass="shoppingPanel">
-            <h:outputLabel  value="Total: " style="font-size: 30px"></h:outputLabel>
-            <h:outputText value="#{cartController.cartTotal}" style="font-size: 40px"></h:outputText>
-            <br/>
-            <p:commandButton value="Comprar" styleClass="shoppingCommandButton" action="#{cartController.save()}" update="@form"></p:commandButton>
-        </p:panel>
-
         <p:dialog header="Offer Info" widgetVar="carDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
             <p:outputPanel id="carDetail" style="text-align:center;">
                 <p:panelGrid  columns="2" rendered="#{not empty offersController.selected}" columnClasses="label,value">
                     <f:facet name="header">
-                        <p:graphicImage value="#{item.image}"/> 
+                        <p:graphicImage value="#{item.offersId.image}"/> 
                     </f:facet>
 
                     <h:outputText value="Id:" />

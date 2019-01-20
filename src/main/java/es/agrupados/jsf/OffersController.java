@@ -22,6 +22,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import javax.servlet.http.HttpSession;
 
 @Named("offersController")
 @SessionScoped
@@ -30,15 +31,12 @@ public class OffersController implements Serializable {
     @EJB private es.agrupados.beans.OffersFacade ejbFacade;
     private List<Offers> items = null;
     private Offers selected;
-    private List<Offers> cartList;
-    private boolean isAdded;
 
     public OffersController() {
     }
     
     @PostConstruct
     public void init(){
-        cartList = new ArrayList<>();
     }
 
     public Offers getSelected() {
@@ -84,10 +82,6 @@ public class OffersController implements Serializable {
         }
     }
     
-    public List<Offers> getOffersByUsers(ApplicationUsers user){
-        return getFacade().getOffersByUsers(user);
-    }
-    
     public List<Offers> getItems() {
         if (items == null) {
             items = getFacade().findAll();
@@ -109,37 +103,6 @@ public class OffersController implements Serializable {
         return activeItems;
     }
     
-    public String addToCart(Offers offer) {
-        cartList.add(offer);
-        isAdded = true;
-        return "ShoppingCartPage?faces-redirect=true";
-    }
-
-    public void removeFromCart(Offers offer) {
-        cartList.remove(offer);
-        isAdded = false;
-    }
-    
-    public void clearCartList(){
-        cartList.clear();
-    }
-
-    public List<Offers> getCartList() {
-        return cartList;
-    }
-    
-    public double getCartTotal(){
-        double sum = cartList.stream()
-                .mapToDouble(item -> item.getOfferPrice())
-                .sum();
-        return sum;
-    }
-    
-    public boolean getIsAdded(){
-        return isAdded;
-    }
-    
-
     private void persist(PersistAction persistAction, String successMessage) {
         if (selected != null) {
             setEmbeddableKeys();

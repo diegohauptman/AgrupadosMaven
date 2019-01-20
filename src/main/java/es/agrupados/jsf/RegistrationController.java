@@ -23,8 +23,8 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
 /**
- *
- * @author mundakamacbook
+ * Class 
+ * @author Diego Hauptman
  */
 @Named("registrationController")
 @ViewScoped

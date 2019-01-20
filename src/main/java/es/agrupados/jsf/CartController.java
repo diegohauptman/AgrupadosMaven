@@ -6,6 +6,7 @@
 package es.agrupados.jsf;
 
 import es.agrupados.beans.CouponsFacade;
+import es.agrupados.filters.AuthClientFilter;
 import es.agrupados.persistence.ApplicationUsers;
 import es.agrupados.persistence.Coupons;
 import es.agrupados.persistence.Offers;
@@ -23,8 +24,8 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.lang3.RandomStringUtils;
 
 /**
- *
- * @author mundakamacbook
+ * Class with business logic to manage the Cart feature.
+ * @author Diego Hauptman
  */
 @Named("cartController")
 @SessionScoped
@@ -33,31 +34,51 @@ public class CartController implements Serializable {
     @EJB
     CouponsFacade couponsFacade;
     private ApplicationUsers applicationUser;
+    private ApplicationUsers businessUser;
+    private ApplicationUsers admin;
     private List<Offers> cartList;
     private List<Coupons> couponsList;
-    private FacesContext context;
+     private HttpSession session;
 
+    public CartController() {
+        this.cartList = new ArrayList<>();
+        this.couponsList = new ArrayList<>();
+    }
+    
+    /**
+     * PostConstruct method to initialize the objects FacesContext and HttpSession,
+     * 
+     */
     @PostConstruct
     public void init() {
-        context = FacesContext.getCurrentInstance();
-        HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
-        applicationUser = (ApplicationUsers) session.getAttribute("client");
-        couponsList = new ArrayList<>();
-        cartList = new ArrayList<>();
+        FacesContext context = FacesContext.getCurrentInstance();
+        session = (HttpSession) context.getExternalContext().getSession(false);
     }
 
     /**
-     *
-     * @return
+     * Evaluates if the user is logged as a Client.
+     * @return boolean
      */
     public boolean isClient() {
+        applicationUser = (ApplicationUsers) session.getAttribute("client");
         return applicationUser != null;
+    }
+    
+    public boolean isBusiness() {
+        businessUser = (ApplicationUsers) session.getAttribute("business");
+        return businessUser != null;
+    }
+    
+    public boolean isAdmin() {
+        admin = (ApplicationUsers) session.getAttribute("admin");
+        return admin != null;
     }
 
     /**
      * Method to persist coupons in database. Called by "Comprar" button.
      */
     public void save() {
+        System.out.println("Is Client? " + isClient());
         if (isClient()) {
             Date purchaseDatetime = new Date();
             
@@ -80,31 +101,56 @@ public class CartController implements Serializable {
             //Vacia la lista de compras.
             cartList.clear();
             //Anade mensaje de successo de la compra.
-            context.addMessage(null, new FacesMessage("Compra realizada. Total: " + total));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Compra realizada!", "Total: €" + total));
             
         } else{
             //Si usuario no esta en la sesión se pide para que inicie la sesion para finalizar la compra.
-            context.addMessage(null, new FacesMessage("Please Login to complete") );
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("No se puede realizar la compra.", "Inicia la sesión como Cliente para finalizar la compra.") );
         }
     }
     
-     public String addToCart(Offers offer) {
+    /**
+     * Add offers to cartList if logged as Client or not logged yet.
+     * @param offer
+     */
+    public void addToCart(Offers offer) {
+        if(!isBusiness() && !isAdmin()){
         cartList.add(offer);
-        return "ShoppingCartPage?faces-redirect=true";
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(offer.getTitle(), "Añadida al carrito."));
+        //return "ShoppingCartPage?faces-redirect=true";
+        }else{
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("No se ha añadido al carrito.", "Inicia la sesión como Cliente para comprar.") );
+        }
     }
 
+    /**
+     * Removes an offer from the cartList
+     * @param offer
+     */
     public void removeFromCart(Offers offer) {
         cartList.remove(offer);
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(offer.getTitle(), "Eliminada del carrito."));
     }
     
+    /**
+     * Clears the cartList
+     */
     public void clearCartList(){
         cartList.clear();
     }
 
+    /**
+     * Getter of cartList
+     * @return cartList
+     */
     public List<Offers> getCartList() {
         return cartList;
     }
     
+    /**
+     * Sums the prices of added offers in cartList
+     * @return sum
+     */
     public double getCartTotal(){
         double sum = cartList.stream()
                 .mapToDouble(item -> item.getOfferPrice())

@@ -37,6 +37,7 @@ public class OffersFacade extends AbstractFacade<Offers> {
                 "Offers.findByApplicationUsers", Offers.class);
         query.setParameter("applicationUsers", user);
         List<Offers> offersList = query.getResultList();
+         System.out.println("List of offers by users: " + offersList);
         return offersList;
         
     }

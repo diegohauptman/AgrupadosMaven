@@ -4,7 +4,7 @@
     xmlns:f="http://xmlns.jcp.org/jsf/core"
     xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
     xmlns:p="http://primefaces.org/ui">
-    
+
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
@@ -20,7 +20,8 @@
     </style>
 
 
-        <h:form id="form">
+    <h:form id="form">
+        <p:growl id="growl" showDetail="true" sticky="false" /> 
         <p:dataGrid var="item" value="#{offersController.activeItems}" columns="2" 
                     rows="20" paginator="false" id="offers"
                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
@@ -29,19 +30,19 @@
 
             <p:panel style="text-align:center; border: none">
                 <h:panelGrid columns="1" style="width:100%;text-align:center">
-                    
-                <div class="w3-half w3-margin-bottom">
-                    <p:graphicImage value="https://www.w3schools.com/w3images/ocean2.jpg" alt="#{item.title}" style="width:100%"/>
-                    <div class="w3-container w3-white">
-                        <h3>#{item.title}</h3>
-                        <p class="w3-opacity">De <s>€#{item.startPrice}</s> por <span style="color:green; font-size: large">€#{item.offerPrice}</span></p>
-                        <p>#{item.description}</p>
-                        <p:commandButton value="Add to Cart" action="#{cartController.addToCart(item)}" class="w3-button w3-margin-bottom"></p:commandButton>
+
+                    <div class="w3-half w3-margin-bottom">
+                        <p:graphicImage value="https://www.w3schools.com/w3images/ocean2.jpg" alt="#{item.title}" style="width:100%"/>
+                        <div class="w3-container w3-white">
+                            <h3>#{item.title}</h3>
+                            <p class="w3-opacity">De <s>€#{item.startPrice}</s> por <span style="color:green; font-size: large">€#{item.offerPrice}</span></p>
+                            <p>#{item.description}</p>
+                            <p:commandButton value="Add to Cart" action="#{cartController.addToCart(item)}" rendered="#{not cartController.admin and not cartController.business}" update="growl" class="w3-button w3-margin-bottom"></p:commandButton>
+                        </div>
                     </div>
-                </div>
-                    <p:commandLink update=":form:carDetail" oncomplete="PF('carDialog').show()" title="View Detail">
+                    <p:commandLink update="@form" oncomplete="PF('offerDialog').show()" title="View Detail">
                         <p:commandButton icon="fa fa-search"></p:commandButton>
-                        
+
                         <f:setPropertyActionListener value="#{item}" target="#{offersController.selected}" />
                     </p:commandLink>
                 </h:panelGrid>
@@ -49,15 +50,15 @@
             <hr/>
         </p:dataGrid>
 
-        <p:dialog header="Offer Info" widgetVar="carDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
-            <p:outputPanel id="carDetail" style="text-align:center;">
+        <p:dialog header="Offer Info" widgetVar="offerDialog" modal="true" showEffect="fade" hideEffect="fade" positionType="fixed" resizable="false">
+            <p:outputPanel id="offerDetail" style="text-align:center;">
                 <p:panelGrid  columns="2" rendered="#{not empty offersController.selected}" columnClasses="label,value">
                     <f:facet name="header">
-                        <p:graphicImage value="#{item.image}"/> 
+                        <h:outputText value="#{offersController.selected.title}"/>
                     </f:facet>
 
-                    <h:outputText value="Id:" />
-                    <h:outputText value="#{offersController.selected.id}" />
+                    <h:outputText value="Offer by" />
+                    <h:outputText value="#{offersController.selected.applicationUsersId.username}" />
 
                     <h:outputText value="Description" />
                     <h:outputText value="#{offersController.selected.description}" />
@@ -67,6 +68,18 @@
 
                     <h:outputText value="Offer Price" />
                     <h:outputText value="€#{offersController.selected.offerPrice}" />
+
+                    <h:outputText value="Start Date" />
+                    <h:outputText value="#{offersController.selected.startDate}">
+                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                    </h:outputText>
+
+                    <h:outputText value="End Date" />
+                    <h:outputText value="#{offersController.selected.endDate}">
+                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                    </h:outputText>
+
+
                 </p:panelGrid>
             </p:outputPanel>
         </p:dialog>

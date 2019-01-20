@@ -29,11 +29,26 @@ public class UserLoginView implements Serializable {
     private LoginBean userBean;
     private ApplicationUsers user = new ApplicationUsers();
     public final static String USER_KEY = "auth_user";
+    private boolean isClient;
+    private boolean isBusiness;
+    private boolean isAdmin;
 
     public ApplicationUsers getUser() {
         return user;
     }
 
+    public boolean isIsClient() {
+        return isClient;
+    }
+
+    public boolean isIsAdmin() {
+        return isAdmin;
+    }
+
+    public boolean isIsBusiness() {
+        return isBusiness;
+    }
+    
     public String login() {
 
         boolean loggedIn = false;
@@ -49,16 +64,19 @@ public class UserLoginView implements Serializable {
         if (userBean.isAdmin(user)) {
             String role = "admin";
             String page = "/administrator/AdminIndex?faces-redirect=true";
+            isAdmin = true;
             return validateUser(context, role, page, user.getUsername());
 
         } else if (userBean.isClient(user)) {
             String role = "client";
             String page = "/client/ClientIndex?faces-redirect=true";
+            isClient = true;
             return validateUser(context, role, page, user.getUsername());
 
         } else if (userBean.isBusiness(user)) {
             String role = "business";
             String page = "/business/BusinessIndex?faces-redirect=true";
+            isBusiness = true;
             return validateUser(context, role, page, user.getUsername());
 
         } else {
@@ -74,7 +92,7 @@ public class UserLoginView implements Serializable {
     private String validateUser(FacesContext context, String role, String page, String userName) {
         boolean loggedIn;
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Welcome", userName);
-        context.getExternalContext().getSessionMap().clear();
+        //context.getExternalContext().getSessionMap().clear();
         context.getExternalContext().getSessionMap()
                 .put(role, this.user);
         loggedIn = true;
