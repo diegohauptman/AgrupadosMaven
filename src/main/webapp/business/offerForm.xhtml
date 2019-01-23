@@ -5,7 +5,7 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
-    <ui:composition>
+    <ui:composition
         <f:metadata>
             <f:event type="preRenderView" listener="#{loggedBusinessOfferController.init()}" />
         </f:metadata>
@@ -24,9 +24,12 @@
                     <p:outputLabel value="#{bundle.CreateOffersLabel_image}" for="image" />
                     <p:inputText id="image" value="#{loggedBusinessOfferController.createOffers.image}" title="#{bundle.CreateOffersTitle_image}" />
                     <p:outputLabel value="#{bundle.CreateOffersLabel_startDate}" for="startDate" />
-                    <p:calendar id="startDate" pattern="MM/dd/yyyy HH:mm:ss" value="#{loggedBusinessOfferController.createOffers.startDate}" title="#{bundle.EditOffersTitle_startDate}" required="true" requiredMessage="#{bundle.EditOffersRequiredMessage_startDate}" showOn="button"/>
+                    <p:calendar id="startDate" binding="#{startDateComponent}" pattern="MM/dd/yyyy HH:mm:ss" value="#{loggedBusinessOfferController.createOffers.startDate}" title="#{bundle.EditOffersTitle_startDate}" required="true" requiredMessage="#{bundle.EditOffersRequiredMessage_startDate}" showOn="button"/>
                     <p:outputLabel value="#{bundle.CreateOffersLabel_endDate}" for="endDate" />
-                    <p:calendar id="endDate" pattern="MM/dd/yyyy HH:mm:ss" value="#{loggedBusinessOfferController.createOffers.endDate}" title="#{bundle.EditOffersTitle_endDate}" required="true" requiredMessage="#{bundle.EditOffersRequiredMessage_endDate}" showOn="button"/>
+                    <p:calendar id="endDate" pattern="MM/dd/yyyy HH:mm:ss" value="#{loggedBusinessOfferController.createOffers.endDate}" title="#{bundle.EditOffersTitle_endDate}" required="true" requiredMessage="#{bundle.EditOffersRequiredMessage_endDate}" showOn="button">
+                        <f:validator validatorId="dateRangeValidator" />
+                        <f:attribute name="startDateComponent" value="#{startDateComponent}" />
+                    </p:calendar>
                     <p:outputLabel value="#{bundle.CreateOffersLabel_active}" for="active" />
                     <p:selectBooleanCheckbox id="active" value="#{loggedBusinessOfferController.createOffers.active}" required="true" requiredMessage="#{bundle.EditOffersRequiredMessage_active}"/>
                     <p:commandButton action="#{loggedBusinessOfferController.save()}" update="display,growl" value="#{bundle.Save}"/>

@@ -59,7 +59,7 @@ public class UserLoginView implements Serializable {
         FacesContext context = FacesContext.getCurrentInstance();
 
         user = userBean.userAuth(user);
-        System.out.println("User info: " + user.toString());
+        //System.out.println("User info: " + user.toString());
 
         if (userBean.isAdmin(user)) {
             String role = "admin";
