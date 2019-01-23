@@ -9,7 +9,7 @@ import es.agrupados.login.LoginBean;
 import es.agrupados.persistence.ApplicationUsers;
 import java.io.IOException;
 import java.io.Serializable;
-import javax.enterprise.context.SessionScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.faces.annotation.FacesConfig;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -20,15 +20,14 @@ import org.primefaces.PrimeFaces;
 
 @FacesConfig
 @Named("userLoginView")
-@SessionScoped
+@RequestScoped
 public class UserLoginView implements Serializable {
 
     //@Inject
     //private ApplicationUsersFacade userBean;
     @Inject
-    private LoginBean userBean;
+    private LoginBean userLoginBean;
     private ApplicationUsers user = new ApplicationUsers();
-    public final static String USER_KEY = "auth_user";
     private boolean isClient;
     private boolean isBusiness;
     private boolean isAdmin;
@@ -37,43 +36,57 @@ public class UserLoginView implements Serializable {
         return user;
     }
 
-    public boolean isIsClient() {
-        return isClient;
+    private void checkRole(){
+        
+        isAdmin = false;
+        isClient = false;
+        isBusiness = false;
+        
+        if (user != null) {
+            String rolename = user.getRole().getRolename();
+            System.out.println("Rolename: " + rolename);
+            
+            if(rolename.equals("Business")){
+                isBusiness = true;
+            } 
+            
+            if(rolename.equals("Client")){
+                isClient = true;
+            } 
+            
+            if(rolename.equals("Administrator")){
+                isAdmin = true;
+            }
+        } 
     }
 
-    public boolean isIsAdmin() {
-        return isAdmin;
-    }
-
-    public boolean isIsBusiness() {
-        return isBusiness;
-    }
-    
     public String login() {
 
-        boolean loggedIn = false;
+        boolean loggedIn;
         String userName = user.getUsername();
         System.out.println("Haciendo login de usuário "
                 + userName);
         System.out.println("Usuario: " + userName);
         FacesContext context = FacesContext.getCurrentInstance();
 
-        user = userBean.userAuth(user);
+        user = userLoginBean.userAuth(user);
         //System.out.println("User info: " + user.toString());
+        
+        checkRole();
 
-        if (userBean.isAdmin(user)) {
+        if (isAdmin && user != null) {
             String role = "admin";
             String page = "/administrator/AdminIndex?faces-redirect=true";
             isAdmin = true;
             return validateUser(context, role, page, user.getUsername());
 
-        } else if (userBean.isClient(user)) {
+        } else if (isClient && user != null) {
             String role = "client";
             String page = "/client/ClientIndex?faces-redirect=true";
             isClient = true;
             return validateUser(context, role, page, user.getUsername());
 
-        } else if (userBean.isBusiness(user)) {
+        } else if (isBusiness && user != null) {
             String role = "business";
             String page = "/business/BusinessIndex?faces-redirect=true";
             isBusiness = true;
@@ -81,7 +94,7 @@ public class UserLoginView implements Serializable {
 
         } else {
             loggedIn = false;
-            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Loggin Error", "Invalid credentials");
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Login Error", "Credenciales inválidas");
             context.addMessage(null, message);
         }
 
@@ -102,8 +115,7 @@ public class UserLoginView implements Serializable {
         context.getExternalContext().getFlash().setKeepMessages(true);
         return page;
     }
-    
-    
+
     public void logout() {
         FacesContext context = FacesContext.getCurrentInstance();
         context.getExternalContext().invalidateSession();
