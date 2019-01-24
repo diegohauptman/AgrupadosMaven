@@ -9,12 +9,11 @@ import es.agrupados.persistence.ApplicationUsers;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 /**
- *
+ * Class that authenticates against the Database.
  * @author mundakamacbook
  */
 @Stateless
@@ -23,6 +22,11 @@ public class LoginBean {
     @PersistenceContext(unitName = "AgrupadosPU")
     private EntityManager em;
 
+    /**
+     * Checks for authentication with a query in the database for the user.
+     * @param user
+     * @return user the user or null if not found.
+     */
     public ApplicationUsers userAuth(ApplicationUsers user) {
         System.out.println("Usuario inside userAuth method: " + user.getUsername());
         List<ApplicationUsers> usersList;
@@ -40,25 +44,5 @@ public class LoginBean {
         } else {
             return null;
         }
-        //System.out.println(user.toString());
     }
-
-    public boolean isAdmin(ApplicationUsers user) {
-        String rolename = user.getRole().getRolename();
-        System.out.println("Rolename: " + rolename);
-        return rolename.equals("Administrator");
-    }
-
-    public boolean isClient(ApplicationUsers user) {
-        String rolename = user.getRole().getRolename();
-        System.out.println("Rolename: " + rolename);
-        return rolename.equals("Client");
-    }
-
-    public boolean isBusiness(ApplicationUsers user) {
-        String rolename = user.getRole().getRolename();
-        System.out.println("Rolename: " + rolename);
-        return rolename.equals("Business");
-    }
-
 }

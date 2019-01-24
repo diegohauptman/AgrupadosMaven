@@ -64,11 +64,19 @@ public class CartController implements Serializable {
         return applicationUser != null;
     }
     
+    /**
+     * Evaluates if the user is logged as Business.
+     * @return boolean
+     */
     public boolean isBusiness() {
         businessUser = (ApplicationUsers) session.getAttribute("business");
         return businessUser != null;
     }
     
+    /**
+     * Evaluates if the user is logged as Admin.
+     * @return boolean
+     */
     public boolean isAdmin() {
         admin = (ApplicationUsers) session.getAttribute("admin");
         return admin != null;

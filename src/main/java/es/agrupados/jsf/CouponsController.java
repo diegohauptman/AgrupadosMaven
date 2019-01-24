@@ -5,7 +5,6 @@ import es.agrupados.jsf.util.JsfUtil;
 import es.agrupados.jsf.util.JsfUtil.PersistAction;
 import es.agrupados.beans.CouponsFacade;
 import es.agrupados.persistence.ApplicationUsers;
-import es.agrupados.persistence.Offers;
 
 import java.io.Serializable;
 import java.util.List;
@@ -22,6 +21,11 @@ import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 import javax.servlet.http.HttpSession;
 
+/**
+ * Class that manages the persistence of Coupons in database.
+ * Contains CRUD methods.
+ * @author mundakamacbook
+ */
 @Named("couponsController")
 @SessionScoped
 public class CouponsController implements Serializable {
@@ -31,13 +35,24 @@ public class CouponsController implements Serializable {
     private List<Coupons> items = null;
     private Coupons selected;
 
+    /**
+     * Default constructor.
+     */
     public CouponsController() {
     }
 
+    /**
+     * Getter of coupons.
+     * @return
+     */
     public Coupons getSelected() {
         return selected;
     }
 
+    /**
+     * Setter of coupons.
+     * @param selected
+     */
     public void setSelected(Coupons selected) {
         this.selected = selected;
     }
@@ -52,12 +67,19 @@ public class CouponsController implements Serializable {
         return ejbFacade;
     }
 
+    /**
+     * Initializes coupons instance.
+     * @return
+     */
     public Coupons prepareCreate() {
         selected = new Coupons();
         initializeEmbeddableKey();
         return selected;
     }
 
+    /**
+     * Creates a coupon
+     */
     public void create() {
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("CouponsCreated"));
         if (!JsfUtil.isValidationFailed()) {
@@ -65,10 +87,16 @@ public class CouponsController implements Serializable {
         }
     }
 
+    /**
+     * Updates a coupon
+     */
     public void update() {
         persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("CouponsUpdated"));
     }
 
+    /**
+     * Deletes a coupon
+     */
     public void destroy() {
         persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("CouponsDeleted"));
         if (!JsfUtil.isValidationFailed()) {
@@ -77,6 +105,10 @@ public class CouponsController implements Serializable {
         }
     }
 
+    /**
+     * Retrieves a list with all coupons
+     * @return List od coupons
+     */
     public List<Coupons> getItems() {
         if (items == null) {
             items = getFacade().findAll();
@@ -84,6 +116,10 @@ public class CouponsController implements Serializable {
         return items;
     }
     
+    /**
+     * Retrieves the coupons list for the logged user in session.
+     * @return List of coupons
+     */
     public List<Coupons> getCouponsByUsers(){
         FacesContext context = FacesContext.getCurrentInstance();
         HttpSession session = (HttpSession) context.getExternalContext().getSession(false);

@@ -23,7 +23,7 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
 /**
- * Class 
+ * Class that manages the user registration with CRUD methods.
  * @author Diego Hauptman
  */
 @Named("registrationController")
@@ -38,10 +38,18 @@ public class RegistrationController implements Serializable{
     public RegistrationController() {
     }
 
+    /**
+     * Getter of users.
+     * @return
+     */
     public ApplicationUsers getUsers() {
         return users;
     }
 
+    /**
+     * Setter of users
+     * @param users
+     */
     public void setUsers(ApplicationUsers users) {
         this.users = users;
     }
@@ -57,12 +65,19 @@ public class RegistrationController implements Serializable{
         return ejbFacade;
     }
 
+    /**
+     * Initializes the user instance.
+     * @return users initialized.
+     */
     public ApplicationUsers prepareCreate() {
         users = new ApplicationUsers();
         initializeEmbeddableKey();
         return users;
     }
 
+    /**
+     * Creates the user in database.
+     */
     public void create() {
         persist(JsfUtil.PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("ApplicationUsersCreated"));
         if (!JsfUtil.isValidationFailed()) {
@@ -70,10 +85,16 @@ public class RegistrationController implements Serializable{
         }
     }
 
+    /**
+     * Updates the user in the database.
+     */
     public void update() {
         persist(JsfUtil.PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("ApplicationUsersUpdated"));
     }
 
+    /**
+     * Deletes the user in the database.
+     */
     public void destroy() {
         persist(JsfUtil.PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("ApplicationUsersDeleted"));
         if (!JsfUtil.isValidationFailed()) {
@@ -82,6 +103,10 @@ public class RegistrationController implements Serializable{
         }
     }
 
+    /**
+     * Getter of list with all users.
+     * @return items 
+     */
     public List<ApplicationUsers> getItems() {
         if (items == null) {
             items = getFacade().findAll();

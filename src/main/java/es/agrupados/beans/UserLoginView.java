@@ -18,6 +18,12 @@ import javax.inject.Named;
 
 import org.primefaces.PrimeFaces;
 
+/**
+ * Class that manages role based authorization. This class calls LoginBean for the 
+ * authentication job and with the returned user it checks for the role and redirects
+ * the user to the corresponding page.
+ * @author mundakamacbook
+ */
 @FacesConfig
 @Named("userLoginView")
 @RequestScoped
@@ -32,6 +38,10 @@ public class UserLoginView implements Serializable {
     private boolean isBusiness;
     private boolean isAdmin;
 
+    /**
+     * Getter of the user. To be used in the xhtml page.
+     * @return
+     */
     public ApplicationUsers getUser() {
         return user;
     }
@@ -60,6 +70,12 @@ public class UserLoginView implements Serializable {
         } 
     }
 
+    /**
+     * Checks if the user is authenticated and then redirects user to the 
+     * corresponding pages based on its roles. Also includes the user in the 
+     * session
+     * @return String jsf page or empty string
+     */
     public String login() {
 
         boolean loggedIn;
@@ -116,6 +132,10 @@ public class UserLoginView implements Serializable {
         return page;
     }
 
+    /**
+     * Logout method that invalidates the session and redirects user to the
+     * main page.
+     */
     public void logout() {
         FacesContext context = FacesContext.getCurrentInstance();
         context.getExternalContext().invalidateSession();
