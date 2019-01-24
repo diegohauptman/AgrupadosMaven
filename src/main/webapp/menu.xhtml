@@ -52,7 +52,7 @@
                 <p:password id="password" value="#{userLoginView.user.password}" required="true" label="password" />
 
                 <f:facet name="footer">
-                    <p:commandButton value="Login" update="growl" action="#{userLoginView.login}"
+                    <p:commandButton value="Login" update=":menuform:growl" action="#{userLoginView.login}"
                                      oncomplete="handleLoginRequest(xhr, status, args)" />
                 </f:facet>  
             </h:panelGrid>
