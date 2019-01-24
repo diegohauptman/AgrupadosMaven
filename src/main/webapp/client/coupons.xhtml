@@ -44,42 +44,64 @@
 
         <p:repeat var="item" value="#{couponsController.couponsByUsers}">
             <p:panel style="border: none">
-                <h:panelGrid id="cartGrid" columns="4" style="width:70%" columnClasses="logo,detail,button1,button2" cellpadding="20">
+                <h:panelGrid id="cartGrid" columns="6" style="width:70%" columnClasses="logo,detail,button1,button2" cellpadding="20">
                     <p:graphicImage value="https://www.w3schools.com/w3images/ocean2.jpg" alt="#{item.offersId.title}" style="width:80%"/>
                     <p> <span style="color: green; font-size: medium">#{item.offersId.title}</span></p>
                     <p>#{item.offersId.description}</p>
-                    <p:outputPanel>
-
-                        <p>Fecha de la compra:</p>
-                        <h:outputText id="date" value="#{item.purchaseDatetime}">
+                    <p:outputPanel rendered="false">
+                        <p><span style="color: green">Fecha de la compra:</span></p>
+                        <h:outputText style="font-size: medium" id="date" value="#{item.purchaseDatetime}">
                             <f:convertDateTime pattern="dd/MM/yyyy" />
                         </h:outputText>
-                        
                     </p:outputPanel>
+                    
+                    <p:outputPanel>
+                        <p> <span style="color: green">Código:</span></p>
+                        <p> <span style="color: black; font-size: medium">#{item.generatedCode}</span></p>
+                    </p:outputPanel>
+                    
+                    <p:outputPanel rendered="false">
+                        <p> <span style="color: green">Finaliza en:</span></p>
+                        <h:outputText style="font-size: medium" id="endDate" value="#{item.offersId.endDate}">
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </h:outputText>
+                    </p:outputPanel>
+                    
+                    <p:outputPanel>
+                        <h:outputText style="font-size: medium; color: green" id="active" rendered="#{item.offersId.active}" value="Activo">
+                        </h:outputText>
+                         <h:outputText style="font-size: medium; color: red" id="notActive" rendered="#{not item.offersId.active}" value="Finalizada">
+                        </h:outputText>
+                    </p:outputPanel>
+                    
+                     <p:commandLink update="@form" oncomplete="PF('couponDialog').show()" title="View Detail">
+                        <p:commandButton icon="fa fa-search"></p:commandButton>
+
+                        <f:setPropertyActionListener value="#{item}" target="#{couponsController.selected}" />
+                    </p:commandLink>
 
                 </h:panelGrid>
             </p:panel>
             <hr/>
         </p:repeat>
 
-        <p:dialog header="Offer Info" widgetVar="carDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
-            <p:outputPanel id="carDetail" style="text-align:center;">
-                <p:panelGrid  columns="2" rendered="#{not empty offersController.selected}" columnClasses="label,value">
+        <p:dialog header="Coupon Info" widgetVar="couponDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+            <p:outputPanel id="couponDetail" style="text-align:center;">
+                <p:panelGrid  columns="2" rendered="#{not empty couponsController.selected}" columnClasses="label,value">
                     <f:facet name="header">
-                        <p:graphicImage value="#{item.offersId.image}"/> 
+                        <p:graphicImage value="Coupon"/> 
                     </f:facet>
 
-                    <h:outputText value="Id:" />
-                    <h:outputText value="#{offersController.selected.id}" />
+                    <h:outputText value="Fecha de la Compra: "  />
+                    <h:outputText value="#{couponsController.selected.purchaseDatetime}">
+                         <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputText>
 
-                    <h:outputText value="Description" />
-                    <h:outputText value="#{offersController.selected.description}" />
+                    <h:outputText value="Finaliza en: " />
+                    <h:outputText value="#{couponsController.selected.offersId.endDate}">
+                         <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputText>
 
-                    <h:outputText value="Start Price" />
-                    <h:outputText value="€#{offersController.selected.startPrice}" />
-
-                    <h:outputText value="Offer Price" />
-                    <h:outputText value="€#{offersController.selected.offerPrice}" />
                 </p:panelGrid>
             </p:outputPanel>
         </p:dialog>

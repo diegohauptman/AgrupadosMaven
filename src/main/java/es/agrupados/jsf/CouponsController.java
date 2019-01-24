@@ -48,7 +48,7 @@ public class CouponsController implements Serializable {
     public Coupons getSelected() {
         return selected;
     }
-
+    
     /**
      * Setter of coupons.
      * @param selected
