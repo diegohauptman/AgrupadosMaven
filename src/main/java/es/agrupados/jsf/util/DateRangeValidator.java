@@ -15,12 +15,21 @@ import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 
 /**
- *
+ * Utility class with date validation method.
+ * 
  * @author mundakamacbook
  */
 @FacesValidator("dateRangeValidator")
 public class DateRangeValidator implements Validator{
 
+    /**
+     * Validates the date to not let the users choose the start date after end date
+     * 
+     * @param context
+     * @param component
+     * @param value
+     * @throws ValidatorException
+     */
     @Override
     public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
          if (value == null) {

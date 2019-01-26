@@ -24,9 +24,9 @@
 package es.agrupados.gmap;
 
 /**
- * Clase que define la entidad dirección.
+ * Class to define Address entity.
  *
- * @author Juan José Hernández Alonso
+ * @author Diego
  */
 public class Address {
 
@@ -42,7 +42,7 @@ public class Address {
     private boolean defaultAddress;
 
     /**
-     * Constructor por defecto.
+     * Default constructor.
      */
     public Address() {
         this.id = 0;
@@ -55,18 +55,17 @@ public class Address {
     }
 
     /**
-     * Constructor parametrizado.
+     * Parametrized constructor.
      *
-     * @param id Integer id de la dirección en "base de datos".
+     * @param id Integer id from Address in Database.
      */
     public Address(Integer id) {
         this.id = id;
     }
 
     /**
-     * Constructor parametrizado con todas las propiedades del objeto. Se obvian
-     * tanto la longitud como la latitud ya que debe ser el API de google el que
-     * devuelva esos valores.
+     * Parametrized constructor with all object properties. It excludes the latitude
+     * and longitude because Google API should return its values.
      *
      * @param id Integer id.
      * @param address String dirección.
@@ -88,7 +87,7 @@ public class Address {
     }
 
     /**
-     * Getter del id.
+     * Getter of id.
      *
      * @return Integer id.
      */
@@ -97,7 +96,7 @@ public class Address {
     }
 
     /**
-     * Setter del id.
+     * Setter of id.
      *
      * @param id Integer.
      */
@@ -106,7 +105,7 @@ public class Address {
     }
 
     /**
-     * Getter de la dirección.
+     * Getter for Address.
      *
      * @return String address.
      */
@@ -115,7 +114,7 @@ public class Address {
     }
 
     /**
-     * Setter de la dirección.
+     * Setter for Addres.
      *
      * @param address String.
      */
@@ -124,7 +123,7 @@ public class Address {
     }
 
     /**
-     * Getter de la ciudad.
+     * Getter for city.
      *
      * @return String city.
      */
@@ -133,7 +132,7 @@ public class Address {
     }
 
     /**
-     * Setter de la ciudad.
+     * Setter for city.
      *
      * @param city String.
      */
@@ -142,16 +141,16 @@ public class Address {
     }
 
     /**
-     * Getter del país.
+     * Getter of country.
      *
-     * @return String país.
+     * @return String country.
      */
     public String getCountry() {
         return country;
     }
 
     /**
-     * Setter del país.
+     * Setter for country.
      *
      * @param country String.
      */
@@ -160,7 +159,7 @@ public class Address {
     }
 
     /**
-     * Getter de la provincia.
+     * Getter of province.
      *
      * @return String province.
      */
@@ -169,7 +168,7 @@ public class Address {
     }
 
     /**
-     * Setter de la provincia.
+     * Setter of province.
      *
      * @param province String.
      */
@@ -178,25 +177,25 @@ public class Address {
     }
 
     /**
-     * Getter del código postal.
+     * Getter for postalCode.
      *
-     * @return String código postal.
+     * @return String postalCode.
      */
     public String getPostalCode() {
         return postalCode;
     }
 
     /**
-     * Setter del código postal.
+     * Setter for postalCode.
      *
-     * @param postalCode String código postal.
+     * @param postalCode String postalCode.
      */
     public void setPostalCode(String postalCode) {
         this.postalCode = postalCode;
     }
 
     /**
-     * Getter de la longitud.
+     * Getter for longitude.
      *
      * @return Double longitude.
      */
@@ -205,7 +204,7 @@ public class Address {
     }
 
     /**
-     * Setter de la longitud.
+     * Setter for longitude.
      *
      * @param longitude Double.
      */
@@ -214,7 +213,7 @@ public class Address {
     }
 
     /**
-     * Getter de la latitud.
+     * Getter for latitude.
      *
      * @return Double latitude.
      */
@@ -223,7 +222,7 @@ public class Address {
     }
 
     /**
-     * Setter de la latitud.
+     * Setter for latitude.
      *
      * @param latitude Double.
      */
@@ -232,8 +231,8 @@ public class Address {
     }
 
     /**
-     * Getter del booleano que indica si es la dirección por defecto.
-     *
+     * Getter of boolean that indicates if it's the default address.
+     * 
      * @return boolean defaultAddress.
      */
     public boolean getDefaultAddress() {
@@ -241,7 +240,7 @@ public class Address {
     }
 
     /**
-     * Setter del booleano que indica si es la dirección por defecto.
+     * Setter of boolean that indicates if it's the default address.
      *
      * @param defaultAddress boolean.
      */
@@ -275,18 +274,18 @@ public class Address {
     }
 
     /**
-     * Método que devuelve las coordenadas formateadas.
-     *
-     * @return String coordenadas formateadas.
+     * Method which returns the formatted coordinates.
+     * 
+     * @return String formatted coordinates.
      */
     public String getCoordinatesForMap() {
         return getLatitude() + "," + getLongitude();
     }
 
     /**
-     * Método que devuelve la dirección completa formateada correctamente.
-     *
-     * @return String dirección completa.
+     * Method that returns the full formatted address.
+     * 
+     * @return String full address.
      */
     public String getFullAddress() {
         return (!"".equals(getAddress()) ? getAddress() + "," : "")

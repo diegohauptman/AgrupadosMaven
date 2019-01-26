@@ -23,9 +23,9 @@
                         <p:outputLabel value="#{bundle.EditOffersLabel_image}" for="image" />
                         <p:inputText id="image" value="#{loggedBusinessOfferController.offer.image}" title="#{bundle.EditOffersTitle_image}" />
                         <p:outputLabel value="#{bundle.EditOffersLabel_startDate}" for="startDate" />
-                        <p:calendar id="startDate" pattern="MM/dd/yyyy HH:mm:ss" value="#{loggedBusinessOfferController.offer.startDate}" title="#{bundle.EditOffersTitle_startDate}" required="true" requiredMessage="#{bundle.EditOffersRequiredMessage_startDate}" showOn="button"/>
+                        <p:calendar id="startDate" pattern="dd/MM/yyyy" value="#{loggedBusinessOfferController.offer.startDate}" title="#{bundle.EditOffersTitle_startDate}" required="true" requiredMessage="#{bundle.EditOffersRequiredMessage_startDate}" showOn="button"/>
                         <p:outputLabel value="#{bundle.EditOffersLabel_endDate}" for="endDate" />
-                        <p:calendar id="endDate" pattern="MM/dd/yyyy HH:mm:ss" value="#{loggedBusinessOfferController.offer.endDate}" title="#{bundle.EditOffersTitle_endDate}" required="true" requiredMessage="#{bundle.EditOffersRequiredMessage_endDate}" showOn="button"/>
+                        <p:calendar id="endDate" pattern="dd/MM/yyyy" value="#{loggedBusinessOfferController.offer.endDate}" title="#{bundle.EditOffersTitle_endDate}" required="true" requiredMessage="#{bundle.EditOffersRequiredMessage_endDate}" showOn="button"/>
                         <p:outputLabel value="#{bundle.EditOffersLabel_active}" for="active" />
                         <p:selectBooleanCheckbox id="active" value="#{loggedBusinessOfferController.offer.active}" required="true" requiredMessage="#{bundle.EditOffersRequiredMessage_active}"/>
                     </p:panelGrid>

@@ -15,7 +15,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 /**
- *
+ * Facade for Coupons
  * @author Diego
  */
 @Stateless

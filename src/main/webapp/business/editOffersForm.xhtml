@@ -59,7 +59,7 @@
                                 <h:outputText value="#{bundle.ListOffersTitle_startDate}"/>
                             </f:facet>
                             <h:outputText value="#{item.startDate}">
-                                <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
                             </h:outputText>
                         </p:column>
                         <p:column>
@@ -67,7 +67,7 @@
                                 <h:outputText value="#{bundle.ListOffersTitle_endDate}"/>
                             </f:facet>
                             <h:outputText value="#{item.endDate}">
-                                <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
                             </h:outputText>
                         </p:column>
                         <p:column>

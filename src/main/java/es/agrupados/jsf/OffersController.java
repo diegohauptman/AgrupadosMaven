@@ -24,6 +24,10 @@ import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 import javax.servlet.http.HttpSession;
 
+/**
+ * Class with business logic to managed the Offers entity.
+ * @author mundakamacbook
+ */
 @Named("offersController")
 @SessionScoped
 public class OffersController implements Serializable {

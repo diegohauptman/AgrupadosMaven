@@ -13,7 +13,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 /**
- *
+ * Facade for ApplicationUserDetails
  * @author Diego
  */
 @Stateless
@@ -31,6 +31,11 @@ public class ApplicationUserDetailsFacade extends AbstractFacade<ApplicationUser
         super(ApplicationUserDetails.class);
     }
     
+    /**
+     * Finds ApplicationUsersDetails entities by ApplicationUser criteria.
+     * @param applicationUser
+     * @return userDetails
+     */
     public ApplicationUserDetails findByApplicationUsers(ApplicationUsers applicationUser){
         ApplicationUserDetails userDetails;
         TypedQuery<ApplicationUserDetails> query = em.createNamedQuery(

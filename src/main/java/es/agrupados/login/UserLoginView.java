@@ -3,9 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package es.agrupados.beans;
+package es.agrupados.login;
 
-import es.agrupados.login.LoginBean;
 import es.agrupados.persistence.ApplicationUsers;
 import java.io.IOException;
 import java.io.Serializable;
@@ -22,7 +21,7 @@ import org.primefaces.PrimeFaces;
  * Class that manages role based authorization. This class calls LoginBean for the 
  * authentication job and with the returned user it checks for the role and redirects
  * the user to the corresponding page.
- * @author mundakamacbook
+ * @author Diego
  */
 @FacesConfig
 @Named("userLoginView")

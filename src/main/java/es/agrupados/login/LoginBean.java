@@ -14,7 +14,7 @@ import javax.persistence.TypedQuery;
 
 /**
  * Class that authenticates against the Database.
- * @author mundakamacbook
+ * @author Diego
  */
 @Stateless
 public class LoginBean {

@@ -6,7 +6,6 @@
 package es.agrupados.jsf;
 
 import es.agrupados.beans.CouponsFacade;
-import es.agrupados.filters.AuthClientFilter;
 import es.agrupados.persistence.ApplicationUsers;
 import es.agrupados.persistence.Coupons;
 import es.agrupados.persistence.Offers;
@@ -38,7 +37,7 @@ public class CartController implements Serializable {
     private ApplicationUsers admin;
     private List<Offers> cartList;
     private List<Coupons> couponsList;
-     private HttpSession session;
+    private HttpSession session;
 
     public CartController() {
         this.cartList = new ArrayList<>();

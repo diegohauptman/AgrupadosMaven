@@ -19,6 +19,10 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
+/**
+ * Class with CRUD methods for ApplicationRolesController.
+ * @author mundakamacbook
+ */
 @Named("applicationRolesController")
 @SessionScoped
 public class ApplicationRolesController implements Serializable {

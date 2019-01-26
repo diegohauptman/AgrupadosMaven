@@ -11,7 +11,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 /**
- *
+ * Facade for ApplicationUsers
  * @author Diego
  */
 @Stateless

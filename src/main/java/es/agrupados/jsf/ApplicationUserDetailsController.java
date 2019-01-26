@@ -20,6 +20,10 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
+/**
+ * Class with CRUD methods for ApplicationUserDetailsController.
+ * @author mundakamacbook
+ */
 @Named("applicationUserDetailsController")
 @SessionScoped
 public class ApplicationUserDetailsController implements Serializable {

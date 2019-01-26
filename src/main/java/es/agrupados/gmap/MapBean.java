@@ -36,9 +36,9 @@ import org.primefaces.model.map.MapModel;
 import org.primefaces.model.map.Marker;
 
 /**
- * Clase con el bean que controla la vista del mapa.
+ * Bean class that controls the map view.
  *
- * @author Juan José Hernández Alonso
+ * @author Diego
  */
 @Named(value = "mapBean")
 @SessionScoped
@@ -59,7 +59,7 @@ public class MapBean implements Serializable {
     }
 
     /**
-     * Método que añade un marcador al modelo del mapa.
+     * Adds a marker to the map's model.
      */
     public void addMarker() {
         model.addOverlay(new Marker(new LatLng(address.getLatitude(), address.getLongitude()), address.getFullAddress()));
@@ -67,7 +67,7 @@ public class MapBean implements Serializable {
     }
 
     /**
-     * Método para mostrar un mensaje al contexto.
+     * Shows a message in the context.
      *
      * @param message String.
      */
@@ -76,16 +76,16 @@ public class MapBean implements Serializable {
     }
 
     /**
-     * Getter del modelo del mapa.
+     * Getter for map's model.
      *
-     * @return MapModel modelo.
+     * @return MapModel model.
      */
     public MapModel getModel() {
         return model;
     }
 
     /**
-     * Setter del modelo del mapa.
+     * Setter for map's model.
      *
      * @param model MapModel.
      */
@@ -94,8 +94,7 @@ public class MapBean implements Serializable {
     }
 
     /**
-     * Método que recupera las coordenadas del API de Google Maps para una
-     * dirección determinada.
+     * Retrieves coordinates of Google Maps API for a specific address.
      */
     public void retrieveCoordinates() {
         CoordinatesService service = new CoordinatesService();
@@ -108,42 +107,42 @@ public class MapBean implements Serializable {
     }
 
     /**
-     * Getter del marcador del mapa.
+     * Getter for map's marker.
      *
-     * @return Marker marcador del mapa.
+     * @return Marker map's marker.
      */
     public Marker getMarker() {
         return marker;
     }
 
     /**
-     * Método que reinicia el modelo del mapa.
+     * Resets the model's map
      */
     private void resetModel() {
         model = new DefaultMapModel();
     }
 
     /**
-     * Getter de la dirección.
+     * Getter for address.
      *
-     * @return Address dirección por la que consulta.
+     * @return Address requested address.
      */
     public ApplicationUserDetails getAddress() {
         return address;
     }
 
     /**
-     * Setter de la dirección.
+     * Setter for address.
      *
-     * @param defaultAddress Address dirección.
+     * @param defaultAddress Address address.
      */
     public void setAddress(ApplicationUserDetails defaultAddress) {
         this.address = defaultAddress;
     }
 
     /**
-     * Método que muestra la dirección en la interfaz gráfica y que podríamos
-     * aprovechar para almacenar en base de datos.
+     * Shows the address in the UI and we could also 
+     * store it in the database.
      */
     public void save() {
         String msg = getAddress().getFullAddress() + " " + getAddress().getCoordinatesForMap();

@@ -14,13 +14,16 @@ import javax.ejb.Schedule;
 import javax.ejb.Singleton;
 
 /**
- *
+ * Utility singleton class with a background scheduler method to invalidate expired offers.
  * @author mundakamacbook
  */
 @Singleton
 public class OffersTimer {
     @EJB OffersFacade offersFacade;
 
+    /**
+     * Scheduler that deactivates expired offers.
+     */
     @Schedule(hour = "0", minute = "0", second = "0", persistent = false)
     public void timer() {
         Date now = new Date();
@@ -30,7 +33,4 @@ public class OffersTimer {
         });
         System.out.println("Timer event: " + new Date());
     }
-
-    // Add business logic below. (Right-click in editor and choose
-    // "Insert Code > Add Business Method")
 }

@@ -42,9 +42,9 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 /**
- * Clase que va a realizar las consultas al API de Google Maps.
+ * Class which does calls to the Google Maps API.
  *
- * @author Juan José Hernández Alonso
+ * @author Diego
  */
 public class CoordinatesService {
 
@@ -53,9 +53,9 @@ public class CoordinatesService {
     private static final Logger LOGGER = Logger.getLogger(CoordinatesService.class.getName());
 
     /**
-     * Método que devuelve un array de doubles con las coordenadas.
-     *
-     * @param address String dirección completa de búsqueda.
+     * Method which returns an array of doubles with the coordinates
+     * 
+     * @param address String full address search.
      * @return double[] coordinates [lat/long].
      */
     public double[] getLatitudeLongitude(String address) {
@@ -67,39 +67,40 @@ public class CoordinatesService {
         NodeList resultNodeList;
         Document geocoderResultDocument;
         try {
-            //Montamos la URL de consulta al API de google maps.
+            //Build the URL for the Google Maps API
             URL url = new URL(GEOCODER_REQUEST_PREFIX_FOR_XML + "?address=" + URLEncoder.encode(address, "UTF-8") + "&sensor=true" + "&key=" + API_KEY);
             LOGGER.info("URL: " + url);
             conn = (HttpURLConnection) url.openConnection();
             conn.connect();
             InputSource geocoderResultInputSource = new InputSource(conn.getInputStream());
-            //Obtenemos el resultado de la petición.
+            //Get the results from the request.
             geocoderResultDocument = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(geocoderResultInputSource);
-            //Utilizamos XPath para poder analizar ese resultado de una forma 
-            //sencilla.
+            //Use XPATH to analyze the result in a simple way.
             XPath xpath = XPathFactory.newInstance().newXPath();
-            //Buscamos los contenidos concretos que necesitamos.
+            //Get the specific results that we need.
             resultNodeList = (NodeList) xpath.evaluate("/GeocodeResponse/result[1]/geometry/location/*", geocoderResultDocument, XPathConstants.NODESET);
             float lat = Float.NaN;
             float lng = Float.NaN;
-            //Recorremos los resultados resultantes.
+            //Traverse the results.
             for (int i = 0; i < resultNodeList.getLength(); ++i) {
                 Node node = resultNodeList.item(i);
-                //Mostramos los nodos y los valores por consola.
+                //Print the nodes and values in console
                 System.out.println("Node: " + node.getNodeName() + " Value: " + node.getTextContent());
-                //Recuperamos la latitud.
+                //Get the latitude
                 if ("lat".equals(node.getNodeName())) {
                     lat = Float.parseFloat(node.getTextContent());
                 }
-                //Recuperamos la longitud
+                //Get the longitude
                 if ("lng".equals(node.getNodeName())) {
                     lng = Float.parseFloat(node.getTextContent());
                 }
             }
             /**
-             * Se presume que solo obtendremos un resultado y será el último y
-             * único el que almacenemos. Podríamos crear un array con todos los 
-             * resultados en caso de que hubiese más de una coincidencia.
+             * 
+             * It's supposed to one single result and it will be the last
+             * and the only one stored. We could create an array with all the results
+             * in case there was more than one match.
+             * 
              */
             coordinates[0] = lat;
             coordinates[1] = lng;
@@ -116,12 +117,11 @@ public class CoordinatesService {
     }
 
     /**
-     * Método que recupera una dirección dadas unas coordenadas. El proceso
-     * es muy similar al anterior.
+     * Method which returns an address by coordinates criteria.
      *
-     * @param latitude Double latitud.
-     * @param longitude Double longitud.
-     * @return String dirección completa y sin tratar.
+     * @param latitude Double latitude.
+     * @param longitude Double longitude.
+     * @return String unformatted full address.
      */
     public String getAddress(Double latitude, Double longitude) {
         String address = null;

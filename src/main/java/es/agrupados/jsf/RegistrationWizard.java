@@ -3,8 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package es.agrupados.beans;
+package es.agrupados.jsf;
 
+import es.agrupados.beans.ApplicationRolesFacade;
+import es.agrupados.beans.ApplicationUserDetailsFacade;
+import es.agrupados.beans.ApplicationUsersFacade;
 import es.agrupados.gmap.CoordinatesService;
 import es.agrupados.persistence.ApplicationUserDetails;
 import es.agrupados.persistence.ApplicationUsers;
@@ -28,7 +31,7 @@ import org.primefaces.model.map.Marker;
  */
 @Named(value = "userWizard")
 @ViewScoped
-public class UserWizard implements Serializable {
+public class RegistrationWizard implements Serializable {
     
     @EJB ApplicationUsersFacade userFacade;
     @EJB ApplicationUserDetailsFacade userDetailsFacade;

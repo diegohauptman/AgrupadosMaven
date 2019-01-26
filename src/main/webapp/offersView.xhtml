@@ -57,26 +57,26 @@
                         <h:outputText value="#{offersController.selected.title}"/>
                     </f:facet>
 
-                    <h:outputText value="Offer by" />
+                    <h:outputText value="Oferta de" />
                     <h:outputText value="#{offersController.selected.applicationUsersId.username}" />
 
-                    <h:outputText value="Description" />
+                    <h:outputText value="Descripción" />
                     <h:outputText value="#{offersController.selected.description}" />
 
-                    <h:outputText value="Start Price" />
+                    <h:outputText value="Precio inicial" />
                     <h:outputText value="€#{offersController.selected.startPrice}" />
 
-                    <h:outputText value="Offer Price" />
+                    <h:outputText value="Precio final" />
                     <h:outputText value="€#{offersController.selected.offerPrice}" />
 
-                    <h:outputText value="Start Date" />
+                    <h:outputText value="Fecha de início" />
                     <h:outputText value="#{offersController.selected.startDate}">
-                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
                     </h:outputText>
 
-                    <h:outputText value="End Date" />
+                    <h:outputText value="Finaliza el" />
                     <h:outputText value="#{offersController.selected.endDate}">
-                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
                     </h:outputText>
 
 
