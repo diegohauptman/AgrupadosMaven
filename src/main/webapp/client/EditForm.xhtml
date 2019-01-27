@@ -12,54 +12,63 @@
             .column {
                 font-weight: bold;
             }
-           
+
         </style>
         <script>
-            $(document).ready(function() {
+            $(document).ready(function () {
                 $("[data-show-initial='true'] > span").click();
             });
         </script>
         <h:form id="ApplicationUserDetailsEditForm">
-            <h2>Personal Information</h2>
+            <h2>Mis Datos Personales</h2>
             <p:growl id="growl"/>
             <h:panelGroup id="display">
+                <h:outputText value="Tu cuenta está desactivada. Cierra la Sesión y regístrate otra vez para activarla." style="color: red" rendered="#{loggedUserController.loggedUser == null}"/>
                 <p:panelGrid columns="2" columnClasses="column" rendered="#{loggedUserController.loggedUser != null}">
-                        <p:outputLabel value="#{bundle.EditApplicationUserDetailsLabel_name}" for="name" />
-                        <p:inplace editor="true" pt:data-show-initial="true">
-                            <p:ajax event="save" listener="#{loggedUserController.update()}"/>
-                            <p:inputText id="name" value="#{loggedUserController.loggedUser.name}" title="#{bundle.EditApplicationUserDetailsTitle_name}" required="true" requiredMessage="#{bundle.EditApplicationUserDetailsRequiredMessage_name}"/>
-                        </p:inplace>
-                        <p:outputLabel value="#{bundle.EditApplicationUserDetailsLabel_dniCif}" for="dniCif" />
-                        <p:inplace editor="true" pt:data-show-initial="true">
-                            <p:ajax event="save" update="growl" listener="#{loggedUserController.update()}"/>
-                            <p:inputText id="dniCif" value="#{loggedUserController.loggedUser.dniCif}" title="#{bundle.EditApplicationUserDetailsTitle_dniCif}" required="true" requiredMessage="#{bundle.EditApplicationUserDetailsRequiredMessage_dniCif}"/>
-                        </p:inplace>
-                        <p:outputLabel value="#{bundle.EditApplicationUserDetailsLabel_address}" for="address" />
-                        <p:inplace editor="true" pt:data-show-initial="true">
-                            <p:ajax event="save" listener="#{loggedUserController.update()}"/>
-                            <p:inputText id="address" value="#{loggedUserController.loggedUser.address}" title="#{bundle.EditApplicationUserDetailsTitle_address}" required="true" requiredMessage="#{bundle.EditApplicationUserDetailsRequiredMessage_address}"/>
-                        </p:inplace>
-                        <p:outputLabel value="#{bundle.EditApplicationUserDetailsLabel_city}" for="city" />
-                        <p:inplace editor="true" pt:data-show-initial="true">
-                            <p:ajax event="save" listener="#{loggedUserController.update()}"/>
-                            <p:inputText id="city" value="#{loggedUserController.loggedUser.city}" title="#{bundle.EditApplicationUserDetailsTitle_city}" required="true" requiredMessage="#{bundle.EditApplicationUserDetailsRequiredMessage_city}"/>
-                        </p:inplace>
-                        <p:outputLabel value="#{bundle.EditApplicationUserDetailsLabel_province}" for="province" />
-                        <p:inplace editor="true" pt:data-show-initial="true">
-                            <p:ajax event="save" listener="#{loggedUserController.update()}"/>
-                            <p:inputText id="province" value="#{loggedUserController.loggedUser.province}" title="#{bundle.EditApplicationUserDetailsTitle_province}" required="true" requiredMessage="#{bundle.EditApplicationUserDetailsRequiredMessage_province}"/>
-                        </p:inplace>
-                        <p:outputLabel value="#{bundle.EditApplicationUserDetailsLabel_country}" for="country" />
-                        <p:inplace editor="true" pt:data-show-initial="true">
-                            <p:ajax event="save" listener="#{loggedUserController.update()}"/>
-                            <p:inputText id="country" value="#{loggedUserController.loggedUser.country}" title="#{bundle.EditApplicationUserDetailsTitle_country}" required="true" requiredMessage="#{bundle.EditApplicationUserDetailsRequiredMessage_country}"/>
-                        </p:inplace>
-                    </p:panelGrid>
-                    <ui:remove>
-                        <p:commandButton actionListener="#{loggedUserController.update}" value="#{bundle.Save}"/>
-                    </ui:remove>
-                </h:panelGroup>
-            </h:form>
+                    <f:facet name="header">
+                        <h:outputText value="Editar"/>
+                    </f:facet>
+                    <p:outputLabel value="#{bundle.EditApplicationUserDetailsLabel_name}" for="name" />
+                    <p:inplace editor="true" pt:data-show-initial="true">
+                        <p:ajax event="save" listener="#{loggedUserController.update()}"/>
+                        <p:inputText id="name" value="#{loggedUserController.loggedUser.name}" title="#{bundle.EditApplicationUserDetailsTitle_name}" required="true" requiredMessage="#{bundle.EditApplicationUserDetailsRequiredMessage_name}"/>
+                    </p:inplace>
+                    <p:outputLabel value="#{bundle.EditApplicationUserDetailsLabel_dniCif}" for="dniCif" />
+                    <p:inplace editor="true" pt:data-show-initial="true">
+                        <p:ajax event="save" update="growl" listener="#{loggedUserController.update()}"/>
+                        <p:inputText id="dniCif" value="#{loggedUserController.loggedUser.dniCif}" title="#{bundle.EditApplicationUserDetailsTitle_dniCif}" required="true" requiredMessage="#{bundle.EditApplicationUserDetailsRequiredMessage_dniCif}"/>
+                    </p:inplace>
+                    <p:outputLabel value="#{bundle.EditApplicationUserDetailsLabel_address}" for="address" />
+                    <p:inplace editor="true" pt:data-show-initial="true">
+                        <p:ajax event="save" listener="#{loggedUserController.update()}"/>
+                        <p:inputText id="address" value="#{loggedUserController.loggedUser.address}" title="#{bundle.EditApplicationUserDetailsTitle_address}" required="true" requiredMessage="#{bundle.EditApplicationUserDetailsRequiredMessage_address}"/>
+                    </p:inplace>
+                    <p:outputLabel value="#{bundle.EditApplicationUserDetailsLabel_city}" for="city" />
+                    <p:inplace editor="true" pt:data-show-initial="true">
+                        <p:ajax event="save" listener="#{loggedUserController.update()}"/>
+                        <p:inputText id="city" value="#{loggedUserController.loggedUser.city}" title="#{bundle.EditApplicationUserDetailsTitle_city}" required="true" requiredMessage="#{bundle.EditApplicationUserDetailsRequiredMessage_city}"/>
+                    </p:inplace>
+                    <p:outputLabel value="#{bundle.EditApplicationUserDetailsLabel_province}" for="province" />
+                    <p:inplace editor="true" pt:data-show-initial="true">
+                        <p:ajax event="save" listener="#{loggedUserController.update()}"/>
+                        <p:inputText id="province" value="#{loggedUserController.loggedUser.province}" title="#{bundle.EditApplicationUserDetailsTitle_province}" required="true" requiredMessage="#{bundle.EditApplicationUserDetailsRequiredMessage_province}"/>
+                    </p:inplace>
+                    <p:outputLabel value="#{bundle.EditApplicationUserDetailsLabel_country}" for="country" />
+                    <p:inplace editor="true" pt:data-show-initial="true">
+                        <p:ajax event="save" listener="#{loggedUserController.update()}"/>
+                        <p:inputText id="country" value="#{loggedUserController.loggedUser.country}" title="#{bundle.EditApplicationUserDetailsTitle_country}" required="true" requiredMessage="#{bundle.EditApplicationUserDetailsRequiredMessage_country}"/>
+                    </p:inplace>
+                </p:panelGrid>
+            </h:panelGroup>
+            <br/>
+            <br/>
+            <p:panelGrid rendered="#{loggedUserController.loggedUser != null}" columns="1">
 
+                <p:commandLink id="cancelAccount" update="growl" style="color: red" action="#{loggedUserController.destroy()}">
+                    <h:outputText value="Cancelar mi Cuenta"/>
+                </p:commandLink>
+
+            </p:panelGrid>
+        </h:form>
     </ui:composition>
 </html>

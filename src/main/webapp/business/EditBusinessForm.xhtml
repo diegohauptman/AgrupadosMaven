@@ -24,6 +24,9 @@
             <p:growl id="growl"/>
             <h:panelGroup id="display">
                 <p:panelGrid columns="3">
+                    <f:facet name="header">
+                        <h:outputText value="Editar"/>
+                    </f:facet>
                     <p:panelGrid columns="2" columnClasses="column" rendered="#{loggedUserController.loggedUser != null}" styleClass="ui-noborder">
                         <p:outputLabel value="#{bundle.EditApplicationUserDetailsLabel_name}" for="name" />
                         <p:inplace editor="true" pt:data-show-initial="true">
@@ -79,6 +82,15 @@
                     <p:commandButton actionListener="#{loggedUserController.update}" value="#{bundle.Save}"/>
                 </ui:remove>
             </h:panelGroup>
+            <br/>
+            <br/>
+            <p:panelGrid columns="1">
+
+                <p:commandLink id="cancelAccount" update="growl" style="color: red" action="#">
+                    <h:outputText value="Cancelar mi Cuenta"/>
+                </p:commandLink>
+
+            </p:panelGrid>
         </h:form>
 
     </ui:composition>

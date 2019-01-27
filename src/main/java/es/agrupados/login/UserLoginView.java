@@ -28,8 +28,6 @@ import org.primefaces.PrimeFaces;
 @RequestScoped
 public class UserLoginView implements Serializable {
 
-    //@Inject
-    //private ApplicationUsersFacade userBean;
     @Inject
     private LoginBean userLoginBean;
     private ApplicationUsers user = new ApplicationUsers();
@@ -72,7 +70,7 @@ public class UserLoginView implements Serializable {
     /**
      * Checks if the user is authenticated and then redirects user to the 
      * corresponding pages based on its roles. Also includes the user in the 
-     * session
+     * session Map.
      * @return String jsf page or empty string
      */
     public String login() {
@@ -96,11 +94,17 @@ public class UserLoginView implements Serializable {
             return validateUser(context, role, page, user.getUsername());
 
         } else if (isClient && user != null) {
-            String role = "client";
-            String page = "/client/ClientIndex?faces-redirect=true";
-            isClient = true;
-            return validateUser(context, role, page, user.getUsername());
-
+            if (!user.getActive()) {
+                loggedIn = false;
+                FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Login Error",
+                         "Usuário desactivado. Regístrate otra vez con el mismo nombre de usuário para reactivar.");
+                context.addMessage(null, message);
+            } else {
+                String role = "client";
+                String page = "/client/ClientIndex?faces-redirect=true";
+                isClient = true;
+                return validateUser(context, role, page, user.getUsername());
+            }
         } else if (isBusiness && user != null) {
             String role = "business";
             String page = "/business/BusinessIndex?faces-redirect=true";

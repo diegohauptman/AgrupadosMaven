@@ -4,10 +4,8 @@ import es.agrupados.persistence.Offers;
 import es.agrupados.jsf.util.JsfUtil;
 import es.agrupados.jsf.util.JsfUtil.PersistAction;
 import es.agrupados.beans.OffersFacade;
-import es.agrupados.persistence.ApplicationUsers;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -22,7 +20,6 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
-import javax.servlet.http.HttpSession;
 
 /**
  * Class with business logic to managed the Offers entity.

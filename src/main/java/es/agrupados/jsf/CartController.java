@@ -54,6 +54,10 @@ public class CartController implements Serializable {
         session = (HttpSession) context.getExternalContext().getSession(false);
     }
 
+    public ApplicationUsers getApplicationUser() {
+        return applicationUser;
+    }
+    
     /**
      * Evaluates if the user is logged as a Client.
      * @return boolean

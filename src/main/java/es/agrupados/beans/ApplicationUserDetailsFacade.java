@@ -9,11 +9,13 @@ import es.agrupados.persistence.ApplicationUserDetails;
 import es.agrupados.persistence.ApplicationUsers;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 /**
  * Facade for ApplicationUserDetails
+ *
  * @author Diego
  */
 @Stateless
@@ -30,20 +32,25 @@ public class ApplicationUserDetailsFacade extends AbstractFacade<ApplicationUser
     public ApplicationUserDetailsFacade() {
         super(ApplicationUserDetails.class);
     }
-    
+
     /**
      * Finds ApplicationUsersDetails entities by ApplicationUser criteria.
+     *
      * @param applicationUser
      * @return userDetails
      */
-    public ApplicationUserDetails findByApplicationUsers(ApplicationUsers applicationUser){
+    public ApplicationUserDetails findByApplicationUsers(ApplicationUsers applicationUser) {
         ApplicationUserDetails userDetails;
-        TypedQuery<ApplicationUserDetails> query = em.createNamedQuery(
-                "ApplicationUserDetails.findByApplicationUsersId", ApplicationUserDetails.class);
-        query.setParameter("applicationUsersId", applicationUser);
-        userDetails = query.getSingleResult();
-        System.out.println("User Details: " + userDetails);
-        return userDetails;
+        try {
+            TypedQuery<ApplicationUserDetails> query = em.createNamedQuery(
+                    "ApplicationUserDetails.findByApplicationUsersId", ApplicationUserDetails.class);
+            query.setParameter("applicationUsersId", applicationUser);
+            userDetails = query.getSingleResult();
+            System.out.println("User Details: " + userDetails);
+            return userDetails;
+
+        } catch (NoResultException e) {
+            return null;
+        }
     }
-    
 }
