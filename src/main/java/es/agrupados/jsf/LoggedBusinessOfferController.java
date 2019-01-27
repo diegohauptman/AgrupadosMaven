@@ -5,7 +5,9 @@ import es.agrupados.persistence.ApplicationUsers;
 import es.agrupados.persistence.Offers;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
+import java.util.stream.Stream;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.inject.Named;
@@ -114,6 +116,11 @@ public class LoggedBusinessOfferController implements Serializable {
      */
     public List<Offers> getOffersList() {
         return offersList;
+    }
+    
+    public boolean isExpired(){
+        Date now = new Date();
+        return offer.getEndDate().before(now);
     }
     
 }
