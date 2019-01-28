@@ -19,7 +19,8 @@
                 $("[data-show-initial='true'] > span").click();
             });
         </script>
-        <h:form id="EditBusinessForm">
+        <h:outputText value="Tu cuenta está desactivada. Cierra la Sesión y regístrate otra vez para activarla." style="color: red" rendered="#{loggedUserController.loggedUser == null}"/>
+        <h:form id="EditBusinessForm" rendered="#{loggedUserController.loggedUser != null}">
             <h2>Business Information</h2>
             <p:growl id="growl"/>
             <h:panelGroup id="display">
@@ -86,7 +87,7 @@
             <br/>
             <p:panelGrid columns="1">
 
-                <p:commandLink id="cancelAccount" update="growl" style="color: red" action="#">
+                <p:commandLink id="cancelAccount" update="growl" style="color: red" action="#{loggedUserController.destroy()}">
                     <h:outputText value="Cancelar mi Cuenta"/>
                 </p:commandLink>
 

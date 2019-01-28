@@ -60,13 +60,6 @@
                         <p> <span style="color: black; font-size: medium">#{item.generatedCode}</span></p>
                     </p:outputPanel>
                     
-                    <p:outputPanel rendered="false">
-                        <p> <span style="color: green">Finaliza en:</span></p>
-                        <h:outputText style="font-size: medium" id="endDate" value="#{item.offersId.endDate}">
-                            <f:convertDateTime pattern="dd/MM/yyyy" />
-                        </h:outputText>
-                    </p:outputPanel>
-                    
                     <p:outputPanel>
                         <h:outputText style="font-size: medium; color: green" id="active" rendered="#{item.offersId.active}" value="Activo">
                         </h:outputText>

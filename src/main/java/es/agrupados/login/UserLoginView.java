@@ -18,9 +18,10 @@ import javax.inject.Named;
 import org.primefaces.PrimeFaces;
 
 /**
- * Class that manages role based authorization. This class calls LoginBean for the 
- * authentication job and with the returned user it checks for the role and redirects
- * the user to the corresponding page.
+ * Class that manages role based authorization. This class calls LoginBean for
+ * the authentication job and with the returned user it checks for the role and
+ * redirects the user to the corresponding page.
+ *
  * @author Diego
  */
 @FacesConfig
@@ -37,40 +38,42 @@ public class UserLoginView implements Serializable {
 
     /**
      * Getter of the user. To be used in the xhtml page.
+     *
      * @return
      */
     public ApplicationUsers getUser() {
         return user;
     }
 
-    private void checkRole(){
-        
+    private void checkRole() {
+
         isAdmin = false;
         isClient = false;
         isBusiness = false;
-        
+
         if (user != null) {
             String rolename = user.getRole().getRolename();
             System.out.println("Rolename: " + rolename);
-            
-            if(rolename.equals("Business")){
+
+            if (rolename.equals("Business")) {
                 isBusiness = true;
-            } 
-            
-            if(rolename.equals("Client")){
+            }
+
+            if (rolename.equals("Client")) {
                 isClient = true;
-            } 
-            
-            if(rolename.equals("Administrator")){
+            }
+
+            if (rolename.equals("Administrator")) {
                 isAdmin = true;
             }
-        } 
+        }
     }
 
     /**
-     * Checks if the user is authenticated and then redirects user to the 
-     * corresponding pages based on its roles. Also includes the user in the 
+     * Checks if the user is authenticated and then redirects user to the
+     * corresponding pages based on its roles. Also includes the user in the
      * session Map.
+     *
      * @return String jsf page or empty string
      */
     public String login() {
@@ -84,7 +87,7 @@ public class UserLoginView implements Serializable {
 
         user = userLoginBean.userAuth(user);
         //System.out.println("User info: " + user.toString());
-        
+
         checkRole();
 
         if (isAdmin && user != null) {
@@ -96,9 +99,7 @@ public class UserLoginView implements Serializable {
         } else if (isClient && user != null) {
             if (!user.getActive()) {
                 loggedIn = false;
-                FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Login Error",
-                         "Usuário desactivado. Regístrate otra vez con el mismo nombre de usuário para reactivar.");
-                context.addMessage(null, message);
+                addUserNotActiveMessage();
             } else {
                 String role = "client";
                 String page = "/client/ClientIndex?faces-redirect=true";
@@ -106,38 +107,50 @@ public class UserLoginView implements Serializable {
                 return validateUser(context, role, page, user.getUsername());
             }
         } else if (isBusiness && user != null) {
-            String role = "business";
-            String page = "/business/BusinessIndex?faces-redirect=true";
-            isBusiness = true;
-            return validateUser(context, role, page, user.getUsername());
-
+            if (!user.getActive()) {
+                loggedIn = false;
+                addUserNotActiveMessage();
+            } else {
+                String role = "business";
+                String page = "/business/BusinessIndex?faces-redirect=true";
+                isBusiness = true;
+                return validateUser(context, role, page, user.getUsername());
+            }
         } else {
             loggedIn = false;
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Login Error", "Credenciales inválidas");
-            context.addMessage(null, message);
+            FacesContext.getCurrentInstance().addMessage(null, message);
         }
 
         PrimeFaces.current().ajax().addCallbackParam("loggedIn", loggedIn);
         return "";
     }
 
+    /**
+     * Includes user in session, validates logged user, adds successful
+     * message and redirects user to correct page.
+     * @param context
+     * @param role
+     * @param page
+     * @param userName
+     * @return page the page the user should be redirected after login.
+     */
     private String validateUser(FacesContext context, String role, String page, String userName) {
-        boolean loggedIn;
+        //boolean loggedIn;
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Welcome", userName);
-        //context.getExternalContext().getSessionMap().clear();
         context.getExternalContext().getSessionMap()
                 .put(role, this.user);
-        loggedIn = true;
-        System.out.println("Logged In: " + loggedIn);
-        System.out.println("User should be => " + role + user.getRole().getRolename());
+        //loggedIn = true;
+        //System.out.println("Logged In: " + loggedIn);
+        //System.out.println("User should be => " + role + user.getRole().getRolename());
         context.addMessage(null, message);
         context.getExternalContext().getFlash().setKeepMessages(true);
         return page;
     }
 
     /**
-     * Logout method that invalidates the session and redirects user to the
-     * main page.
+     * Logout method that invalidates the session and redirects user to the main
+     * page.
      */
     public void logout() {
         FacesContext context = FacesContext.getCurrentInstance();
@@ -148,5 +161,14 @@ public class UserLoginView implements Serializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Adds message for inactive user when tries to login.
+     */
+    private void addUserNotActiveMessage() {
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Login Error",
+                "Usuário desactivado. Regístrate otra vez con el mismo nombre de usuário para reactivar.");
+        FacesContext.getCurrentInstance().addMessage(null, message);
     }
 }

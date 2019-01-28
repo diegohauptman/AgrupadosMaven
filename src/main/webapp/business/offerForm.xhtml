@@ -9,7 +9,8 @@
         <f:metadata>
             <f:event type="preRenderView" listener="#{loggedBusinessOfferController.init()}" />
         </f:metadata>
-        <h:form id="OffersCreateForm">
+        <h:outputText value="Tu cuenta está desactivada. Cierra la Sesión y regístrate otra vez para activarla." style="color: red" rendered="#{loggedUserController.loggedUser == null}"/>
+        <h:form id="OffersCreateForm" rendered="#{loggedUserController.loggedUser != null}">
             <p:growl id="growl"/>
             <p:panel id="display" header="Crea tu Oferta">
                 <h:panelGrid id="offerPanelGrid" columns="2" cellpadding="5" styleClass="ui-noborder">

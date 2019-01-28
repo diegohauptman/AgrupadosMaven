@@ -10,8 +10,8 @@
         <f:metadata>
             <f:event type="preRenderView" listener="#{loggedBusinessOfferController.init()}" />
         </f:metadata>
-
-            <h:form id="BusinessOffersListForm">
+            <h:outputText value="Tu cuenta está desactivada. Cierra la Sesión y regístrate otra vez para activarla." style="color: red" rendered="#{loggedUserController.loggedUser == null}"/>
+            <h:form id="BusinessOffersListForm" rendered="#{loggedUserController.loggedUser != null}">
                 
                 <p:dataTable id="datalist" value="#{loggedBusinessOfferController.offersList}" var="item"
                              selectionMode="single" selection="#{loggedBusinessOfferController.offer}"

@@ -84,7 +84,7 @@ public class LoggedUserController implements Serializable {
      */
     public void addMarker() {
         model.addOverlay(new Marker(new LatLng(loggedUser.getLatitude(), loggedUser.getLongitude()), loggedUser.getFullAddress()));
-        addMessage(new FacesMessage(FacesMessage.SEVERITY_INFO, "Marker Added", loggedUser.getCoordinatesForMap()));
+        //addMessage(new FacesMessage(FacesMessage.SEVERITY_INFO, "Marker Added", loggedUser.getCoordinatesForMap()));
     }
 
     /**
@@ -92,7 +92,7 @@ public class LoggedUserController implements Serializable {
      *
      * @param message String.
      */
-    public void addMessage(FacesMessage message) {
+    private void addMessage(FacesMessage message) {
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
 
