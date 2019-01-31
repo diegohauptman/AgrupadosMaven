@@ -50,19 +50,19 @@ and open the template in the editor.
 
     <h:form id="business">
         <p:growl id="growl" sticky="true" showDetail="true"/>
-        <p:wizard flowListener="#{userWizard.onFlowProcess}">
+        <p:wizard flowListener="#{registrationWizard.onFlowProcess}">
             <p:tab id="empresa" title="Empresa">
                 <p:panel header="Datos de la Empresa">
                     <p:messages />
                     <h:panelGrid columns="2" columnClasses="label, value">
                         <h:outputText value="Nombre de la Empresa: *" />
-                        <p:inputText value="#{userWizard.userDetails.name}" required="true" label="Nombre"/>
+                        <p:inputText value="#{registrationWizard.userDetails.name}" required="true" label="Nombre"/>
 
                         <h:outputText value="CIF: *" />
-                        <p:inputText value="#{userWizard.userDetails.dniCif}" required="false" label="DNI/CIF"/>
+                        <p:inputText value="#{registrationWizard.userDetails.dniCif}" required="false" label="DNI/CIF"/>
 
                         <h:outputText value="Email " />
-                        <p:inputText value="#{userWizard.user.email}" />
+                        <p:inputText value="#{registrationWizard.user.email}" />
 
                     </h:panelGrid>
                 </p:panel>
@@ -74,38 +74,38 @@ and open the template in the editor.
                     <h:panelGrid columns="3">
                         <h:panelGrid columns="2" columnClasses="label, value">
                             <h:outputText value="Calle: " />
-                            <p:inputText value="#{userWizard.userDetails.address}">
+                            <p:inputText value="#{registrationWizard.userDetails.address}">
                                 <p:ajax event="change" update="map,longitude,latitude"   
-                                        listener="#{userWizard.retrieveCoordinates()}" process="@all"/>
+                                        listener="#{registrationWizard.retrieveCoordinates()}" process="@all"/>
                             </p:inputText>
 
                             <h:outputText value="Província: " />
-                            <p:inputText value="#{userWizard.userDetails.province}">
+                            <p:inputText value="#{registrationWizard.userDetails.province}">
                                 <p:ajax event="change" update="map,longitude,latitude"   
-                                        listener="#{userWizard.retrieveCoordinates()}" process="@all"/>
+                                        listener="#{registrationWizard.retrieveCoordinates()}" process="@all"/>
                             </p:inputText>
 
                             <h:outputText value="Ciudad: " />
-                            <p:inputText value="#{userWizard.userDetails.city}">
+                            <p:inputText value="#{registrationWizard.userDetails.city}">
                                 <p:ajax event="change" update="map,longitude,latitude"   
-                                        listener="#{userWizard.retrieveCoordinates()}" process="@all"/>
+                                        listener="#{registrationWizard.retrieveCoordinates()}" process="@all"/>
                             </p:inputText>
 
                             <h:outputText value="País: " />
-                            <p:inputText value="#{userWizard.userDetails.country}">
+                            <p:inputText value="#{registrationWizard.userDetails.country}">
                                 <p:ajax event="change" update="map,longitude,latitude"   
-                                        listener="#{userWizard.retrieveCoordinates()}" process="@all"/>
+                                        listener="#{registrationWizard.retrieveCoordinates()}" process="@all"/>
                             </p:inputText>
 
                             <h:outputText value="Latitude: " />
-                            <p:outputLabel id="latitude" value="#{userWizard.userDetails.latitude}" />
+                            <p:outputLabel id="latitude" value="#{registrationWizard.userDetails.latitude}" />
 
                             <h:outputText value="Longitude: " />
-                            <p:outputLabel id="longitude" value="#{userWizard.userDetails.longitude}" />
+                            <p:outputLabel id="longitude" value="#{registrationWizard.userDetails.longitude}" />
 
                         </h:panelGrid>
                         <h:panelGrid>
-                            <p:gmap id="map" model="#{userWizard.model}" center="#{userWizard.address.getCoordinatesForMap()}" zoom="5" type="HYBRID" style="width:800px;height:400px">
+                            <p:gmap id="map" model="#{registrationWizard.model}" center="#{registrationWizard.address.getCoordinatesForMap()}" zoom="5" type="HYBRID" style="width:800px;height:400px">
                             </p:gmap>
                         </h:panelGrid>
                     </h:panelGrid>
@@ -117,13 +117,13 @@ and open the template in the editor.
                     <p:messages />
                     <h:panelGrid columns="2" columnClasses="label, value">
                         <h:outputText value="Username: *" />
-                        <p:inputText value="#{userWizard.user.username}" required="true" label="Username"/>
+                        <p:inputText value="#{registrationWizard.user.username}" required="true" label="Username"/>
 
                         <h:outputText value="Contraseña: *" />
-                        <p:password id="pdw" value="#{userWizard.user.password}" match="confirmpwd" required="true"/>
+                        <p:password id="pdw" value="#{registrationWizard.user.password}" match="confirmpwd" required="true"/>
 
                         <h:outputText value="Confirme su Contraseña: *" />
-                        <p:password id="confirmpwd" value="#{userWizard.user.password}" required="true"/>
+                        <p:password id="confirmpwd" value="#{registrationWizard.user.password}" required="true"/>
 
                     </h:panelGrid>
                 </p:panel>
@@ -135,25 +135,25 @@ and open the template in the editor.
                         <h:panelGrid columns="2" columnClasses="label, value">
 
                             <h:outputText value="Nombre: " />
-                            <h:outputText value="#{userWizard.userDetails.name}" styleClass="outputLabel"/>
+                            <h:outputText value="#{registrationWizard.userDetails.name}" styleClass="outputLabel"/>
 
                             <h:outputText value="Dirección: " />
-                            <h:outputText value="#{userWizard.userDetails.address}" styleClass="outputLabel"/>
+                            <h:outputText value="#{registrationWizard.userDetails.address}" styleClass="outputLabel"/>
 
                             <h:outputText value="Ciudad: " />
-                            <h:outputText value="#{userWizard.userDetails.city}" styleClass="outputLabel"/>
+                            <h:outputText value="#{registrationWizard.userDetails.city}" styleClass="outputLabel"/>
                         </h:panelGrid>
 
                         <h:panelGrid columns="2" columnClasses="label, value">
                             <h:outputText value="Email: " />
-                            <h:outputText value="#{userWizard.user.email}" styleClass="outputLabel"/>
+                            <h:outputText value="#{registrationWizard.user.email}" styleClass="outputLabel"/>
 
                             <h:outputText />
                             <h:outputText />
                         </h:panelGrid>
                     </h:panelGrid>
 
-                    <p:commandButton value="Submit" action="#{userWizard.save(2)}" update="growl" process="@this"/>
+                    <p:commandButton value="Submit" action="#{registrationWizard.save(2)}" update="growl" process="@this"/>
                 </p:panel>
             </p:tab>
         </p:wizard>

@@ -32,7 +32,7 @@ import org.primefaces.model.map.Marker;
  *
  * @author mundakamacbook
  */
-@Named(value = "userWizard")
+@Named(value = "registrationWizard")
 @ViewScoped
 public class RegistrationWizard implements Serializable {
 

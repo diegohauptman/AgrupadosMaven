@@ -48,22 +48,22 @@ and open the template in the editor.
     
     <h:form id="wizardRegistration">
     <p:growl id="growl" sticky="true" showDetail="true"/>
-    <p:wizard flowListener="#{userWizard.onFlowProcess}">
+    <p:wizard flowListener="#{registrationWizard.onFlowProcess}">
         <p:tab id="personal" title="Personal">
             <p:panel header="Datos Personales">
                 <p:messages />
                 <h:panelGrid columns="2" columnClasses="label, value">
                     <h:outputText value="Nombre: *" />
-                    <p:inputText value="#{userWizard.userDetails.name}" required="true" label="Nombre"/>
+                    <p:inputText value="#{registrationWizard.userDetails.name}" required="true" label="Nombre"/>
  
                     <h:outputText value="DNI/CIF: *" />
-                    <p:inputText value="#{userWizard.userDetails.dniCif}" required="false" label="DNI/CIF"/>
+                    <p:inputText value="#{registrationWizard.userDetails.dniCif}" required="false" label="DNI/CIF"/>
  
                     <h:outputText value="Email: * " />
-                    <p:inputText value="#{userWizard.user.email}" />
+                    <p:inputText value="#{registrationWizard.user.email}" />
                     
                     <h:outputText value="Skip to last: " />
-                    <h:selectBooleanCheckbox value="#{userWizard.skip}" />
+                    <h:selectBooleanCheckbox value="#{registrationWizard.skip}" />
                 </h:panelGrid>
             </p:panel>
         </p:tab>
@@ -73,19 +73,19 @@ and open the template in the editor.
                 <p:messages />
                 <h:panelGrid columns="2" columnClasses="label, value">
                     <h:outputText value="Calle: " />
-                    <p:inputText value="#{userWizard.userDetails.address}" />
+                    <p:inputText value="#{registrationWizard.userDetails.address}" />
  
                     <h:outputText value="Província: " />
-                    <p:inputText value="#{userWizard.userDetails.province}" />
+                    <p:inputText value="#{registrationWizard.userDetails.province}" />
  
                     <h:outputText value="Ciudad: " />
-                    <p:inputText value="#{userWizard.userDetails.city}" />
+                    <p:inputText value="#{registrationWizard.userDetails.city}" />
                     
                     <h:outputText value="País: " />
-                    <p:inputText value="#{userWizard.userDetails.country}" />
+                    <p:inputText value="#{registrationWizard.userDetails.country}" />
  
                     <h:outputText value="Skip to last: " />
-                    <h:selectBooleanCheckbox value="#{userWizard.skip}" />
+                    <h:selectBooleanCheckbox value="#{registrationWizard.skip}" />
                 </h:panelGrid>
             </p:panel>
         </p:tab>
@@ -95,13 +95,13 @@ and open the template in the editor.
                 <p:messages />
                 <h:panelGrid columns="2" columnClasses="label, value">
                     <h:outputText value="Username: *" />
-                    <p:inputText value="#{userWizard.user.username}" required="true" label="Username"/>
+                    <p:inputText value="#{registrationWizard.user.username}" required="true" label="Username"/>
  
                     <h:outputText value="Contraseña: *" />
-                    <p:password id="pdw" value="#{userWizard.user.password}" match="confirmpwd" required="true"/>
+                    <p:password id="pdw" value="#{registrationWizard.user.password}" match="confirmpwd" required="true"/>
                     
                     <h:outputText value="Confirme su Contraseña: *" />
-                    <p:password id="confirmpwd" value="#{userWizard.user.password}" required="true"/>
+                    <p:password id="confirmpwd" value="#{registrationWizard.user.password}" required="true"/>
  
                 </h:panelGrid>
             </p:panel>
@@ -113,25 +113,25 @@ and open the template in the editor.
                     <h:panelGrid columns="2" columnClasses="label, value">
                         
                         <h:outputText value="Nombre: " />
-                        <h:outputText value="#{userWizard.userDetails.name}" styleClass="outputLabel"/>
+                        <h:outputText value="#{registrationWizard.userDetails.name}" styleClass="outputLabel"/>
  
                         <h:outputText value="Dirección: " />
-                        <h:outputText value="#{userWizard.userDetails.address}" styleClass="outputLabel"/>
+                        <h:outputText value="#{registrationWizard.userDetails.address}" styleClass="outputLabel"/>
  
                         <h:outputText value="Ciudad: " />
-                        <h:outputText value="#{userWizard.userDetails.city}" styleClass="outputLabel"/>
+                        <h:outputText value="#{registrationWizard.userDetails.city}" styleClass="outputLabel"/>
                     </h:panelGrid>
  
                     <h:panelGrid columns="2" columnClasses="label, value">
                         <h:outputText value="Email: " />
-                        <h:outputText value="#{userWizard.user.email}" styleClass="outputLabel"/>
+                        <h:outputText value="#{registrationWizard.user.email}" styleClass="outputLabel"/>
  
                         <h:outputText />
                         <h:outputText />
                     </h:panelGrid>
                 </h:panelGrid>
  
-                <p:commandButton value="Submit" action="#{userWizard.save(3)}" update="growl" process="@this"/>
+                <p:commandButton value="Submit" action="#{registrationWizard.save(3)}" update="growl" process="@this"/>
             </p:panel>
         </p:tab>
     </p:wizard>
