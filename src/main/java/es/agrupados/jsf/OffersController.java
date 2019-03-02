@@ -1,16 +1,21 @@
 package es.agrupados.jsf;
 
+import com.google.common.base.Predicates;
+import com.google.common.collect.Collections2;
+import com.google.common.collect.Lists;
 import es.agrupados.persistence.Offers;
 import es.agrupados.jsf.util.JsfUtil;
 import es.agrupados.jsf.util.JsfUtil.PersistAction;
 import es.agrupados.beans.OffersFacade;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
@@ -32,13 +37,25 @@ public class OffersController implements Serializable {
     @EJB private es.agrupados.beans.OffersFacade ejbFacade;
     private List<Offers> items = null;
     private Offers selected;
+    private String filterValue;
+    private List<Offers> filteredItems = null;
 
     public OffersController() {
     }
     
     @PostConstruct
     public void init(){
+        //filteredItems = getFacade().findAll();
     }
+
+    public String getFilterValue() {
+        return filterValue;
+    }
+
+    public void setFilterValue(String filterValue) {
+        this.filterValue = filterValue;
+    }
+    
 
     public Offers getSelected() {
         return selected;
@@ -89,6 +106,20 @@ public class OffersController implements Serializable {
         }
         return items;
     }
+
+    public List<Offers> getFilteredItems() {
+         if (filteredItems == null) {
+            filteredItems = getFacade().findAll().stream()
+                    .filter(item -> item.getActive() == true)
+                    .collect(Collectors.toList());
+        }
+        return filteredItems;
+    }
+
+    public void setFilteredItems(List<Offers> filteredItems) {
+        this.filteredItems = filteredItems;
+    }
+    
     
     /**
      * Returns a list of active offers
@@ -102,6 +133,20 @@ public class OffersController implements Serializable {
                 .collect(Collectors.toList());
 
         return activeItems;
+    }
+    
+    /**
+     * Search for offers by any string contained in the title or description of the offer.
+     */
+    public void filterOffers(){
+        items = getFacade().findAll();
+        List<Offers> filteredList = items.stream()
+                .filter(offer -> (offer.getTitle().toLowerCase().contains(filterValue.toLowerCase()) 
+                        || offer.getDescription().toLowerCase().contains(filterValue.toLowerCase())
+                        || offer.getApplicationUsersId().getUsername().contains(filterValue.toLowerCase())) 
+                        && (offer.getActive() == true))
+                .collect(Collectors.toList());
+        setFilteredItems(filteredList);
     }
     
     private void persist(PersistAction persistAction, String successMessage) {

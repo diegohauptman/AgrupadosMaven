@@ -30,7 +30,9 @@
             </p:submenu>
 
             <f:facet name="options">
-                <p:inputText style="margin-right:10px" placeholder="¿Qué estás buscando?"/>
+                <p:inputText value="#{offersController.filterValue}" style="margin-right:10px" placeholder="¿Qué estás buscando?" >
+                    <p:ajax event="keyup" update=":form:offers" listener="#{offersController.filterOffers()}" />
+                </p:inputText>
 
                 <h:outputLink value="javascript:void(0)" onclick="PF('dlg').show();" title="login">
                     <p:commandButton type="button" value="Login" icon="fa fa-lock" />
