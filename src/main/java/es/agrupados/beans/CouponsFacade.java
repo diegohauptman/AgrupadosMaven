@@ -41,5 +41,13 @@ public class CouponsFacade extends AbstractFacade<Coupons> {
         return couponsList;
         
     }
+     
+     public List<Coupons> findCouponsbyOffers(Offers offer){
+         TypedQuery<Coupons> query = em.createNamedQuery(
+                 "Coupons.findByOffers", Coupons.class);
+         query.setParameter("offer", offer);
+         List<Coupons> couponsList = query.getResultList();
+         return couponsList;
+     }
     
 }

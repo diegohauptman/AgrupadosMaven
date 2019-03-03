@@ -37,7 +37,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Coupons.findByGeneratedCode", query = "SELECT c FROM Coupons c WHERE c.generatedCode = :generatedCode")
     , @NamedQuery(name = "Coupons.findByPurchaseDatetime", query = "SELECT c FROM Coupons c WHERE c.purchaseDatetime = :purchaseDatetime")
     , @NamedQuery(name = "Coupons.findByUsed", query = "SELECT c FROM Coupons c WHERE c.used = :used")
-    , @NamedQuery(name = "Coupons.findByApplicationUsers", query = "SELECT c FROM Coupons c WHERE c.applicationUsersId = :applicationUsers")})
+    , @NamedQuery(name = "Coupons.findByApplicationUsers", query = "SELECT c FROM Coupons c WHERE c.applicationUsersId = :applicationUsers")
+    , @NamedQuery(name = "Coupons.findByOffers", query = "SELECT c FROM Coupons c WHERE c.offersId = :offer")})
 public class Coupons implements Serializable {
 
     private static final long serialVersionUID = 1L;

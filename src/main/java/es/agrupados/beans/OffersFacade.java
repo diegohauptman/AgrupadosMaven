@@ -41,5 +41,7 @@ public class OffersFacade extends AbstractFacade<Offers> {
         return offersList;
         
     }
+     
+     
     
 }

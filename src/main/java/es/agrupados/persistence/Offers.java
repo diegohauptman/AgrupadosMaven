@@ -222,7 +222,7 @@ public class Offers implements Serializable {
 
     @Override
     public String toString() {
-        return "es.agrupados.persistence.Offers[ id=" + id + " ]";
+        return "Offers[ id=" + id + " ] \n" + getDescription() +"\n";
     }
     
 }
