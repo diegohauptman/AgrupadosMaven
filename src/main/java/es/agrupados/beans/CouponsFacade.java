@@ -8,6 +8,7 @@ package es.agrupados.beans;
 import es.agrupados.persistence.ApplicationUsers;
 import es.agrupados.persistence.Coupons;
 import es.agrupados.persistence.Offers;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -49,5 +50,15 @@ public class CouponsFacade extends AbstractFacade<Coupons> {
          List<Coupons> couponsList = query.getResultList();
          return couponsList;
      }
+     
+     public List<Coupons> findCouponsbyPurchaseDate(Date date){
+         TypedQuery<Coupons> query = em.createNamedQuery(
+                 "Coupons.findByPurchaseDatetime", Coupons.class);
+         query.setParameter("purchaseDatetime", date);
+         List<Coupons> couponsList = query.getResultList();
+         return couponsList;
+     }
+     
+     
     
 }
