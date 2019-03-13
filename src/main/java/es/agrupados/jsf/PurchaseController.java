@@ -24,6 +24,7 @@ import javax.servlet.http.HttpSession;
 import org.primefaces.model.chart.Axis;
 import org.primefaces.model.chart.AxisType;
 import org.primefaces.model.chart.BarChartModel;
+import org.primefaces.model.chart.CartesianChartModel;
 import org.primefaces.model.chart.CategoryAxis;
 import org.primefaces.model.chart.ChartSeries;
 import org.primefaces.model.chart.DateAxis;
@@ -44,7 +45,8 @@ public class PurchaseController implements Serializable {
     private ApplicationUsers loggedUser;
     //private Coupons coupon;
     List<Coupons> purchasedCoupons;
-    private BarChartModel barModel;
+    private CartesianChartModel barModel;
+    private CartesianChartModel profitModel;
     private LineChartModel dateModel;
     private int totalCoupons = 0;
     
@@ -55,8 +57,9 @@ public class PurchaseController implements Serializable {
         HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
         loggedUser = (ApplicationUsers) session.getAttribute("business");
         totalCoupons();
-        createAreaModel();
+        numberOfCouponsByOffer();
         totalCouponsByMonth();
+        getProfit();
         
     }
 
@@ -64,41 +67,45 @@ public class PurchaseController implements Serializable {
         return dateModel;
     }
     
-    public BarChartModel getAreaModel() {
+    public CartesianChartModel getCouponsByOffer() {
         return barModel;
     }
+
+    public CartesianChartModel getProfitModel() {
+        return profitModel;
+    }
     
-    public void createAreaModel(){
+    public void numberOfCouponsByOffer(){
         
         barModel = new BarChartModel();
-        
-        ChartSeries couponsSeries1 = new ChartSeries();
-        ChartSeries couponsSeries2 = new ChartSeries();
-        
-        //offersFacade.findAll();
-        
+        ChartSeries count = new ChartSeries();
+       
         List<Offers> offersByUsers = offersFacade.getOffersByUsers(loggedUser);
         
-        for (Offers offer : offersByUsers) {
-             List<Coupons> couponsList = couponsFacade.findCouponsbyOffers(offer);
-             couponsSeries1.set(offer.getTitle(), couponsList.size());
-        }
+        offersByUsers.forEach((offer) -> {
+            List<Coupons> couponsList = couponsFacade.findCouponsbyOffers(offer);
+            float total = couponsList.size() * offer.getOfferPrice();
+            count.set(offer.getTitle(), couponsList.size());
+        });
         
-        couponsSeries1.setLabel("Coupons");
+        count.setLabel("Quantity");
         
-        barModel.addSeries(couponsSeries1);
+        barModel.addSeries(count);
  
-        barModel.setTitle("Sales");
+        barModel.setTitle("Total Sales by Offer");
         barModel.setLegendPosition("ne");
-        barModel.setStacked(true);
+        //barModel.setStacked(true);
         barModel.setShowPointLabels(true);
+        barModel.setZoom(true);
+        barModel.setAnimate(true);
+               
  
         Axis xAxis = new CategoryAxis("Sales by Offer");
         barModel.getAxes().put(AxisType.X, xAxis);
         Axis yAxis = barModel.getAxis(AxisType.Y);
         yAxis.setLabel("Sold Coupons");
         yAxis.setMin(0);
-        yAxis.setMax(100);
+        yAxis.setMax(200);
         
     }
     
@@ -178,6 +185,7 @@ public class PurchaseController implements Serializable {
         dateModel.setTitle("Quarterly Total Coupons");
         dateModel.setZoom(true);
         dateModel.getAxis(AxisType.Y).setLabel("Sold Coupons");
+        dateModel.setAnimate(true);
         DateAxis axis = new DateAxis("Dates");
         axis.setTickAngle(-50);
         axis.setMin(LocalDate.now().minusMonths(2).toString());
@@ -186,6 +194,39 @@ public class PurchaseController implements Serializable {
  
         dateModel.getAxes().put(AxisType.X, axis);
         
+    }
+    
+    public void getProfit(){
+        List<Offers> offersByUsers = offersFacade.getOffersByUsers(loggedUser);
+        profitModel = new BarChartModel();
+        ChartSeries totalMoney = new ChartSeries();
+       
+        offersByUsers.forEach((offer) -> {
+            List<Coupons> couponsList = couponsFacade.findCouponsbyOffers(offer);
+            float total = couponsList.size() * offer.getOfferPrice();
+            totalMoney.set(offer.getTitle(), total);
+            System.out.println("Offer: " + offer.getTitle() + " Total: €" + total);
+        });
+        
+        totalMoney.setLabel("Euros");
+        
+        profitModel.addSeries(totalMoney);
+ 
+        profitModel.setTitle("Profit by Offer");
+        profitModel.setLegendPosition("ne");
+        //barModel.setStacked(true);
+        profitModel.setShowPointLabels(true);
+        profitModel.setZoom(true);
+        profitModel.setAnimate(true);
+               
+ 
+        Axis xAxis = new CategoryAxis("Sales by Offer");
+        profitModel.getAxes().put(AxisType.X, xAxis);
+        Axis yAxis = profitModel.getAxis(AxisType.Y);
+        yAxis.setLabel("€");
+        yAxis.setMin(0);
+        yAxis.setMax(5000);
+         
     }
     
     /**

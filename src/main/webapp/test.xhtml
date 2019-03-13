@@ -14,8 +14,11 @@ and open the template in the editor.
     <h:body>
         <h:form>
             <p:commandButton value="Test" actionListener="#{purchaseController.totalCoupons}"></p:commandButton>
-            <p:chart type="bar" model="#{purchaseController.areaModel}" style="height:300px" />
+            <p:chart type="bar" model="#{purchaseController.couponsByOffer}"  style="height:300px" />
+            <br/>
+            <br/>
             <p:chart type="line" model="#{purchaseController.dateModel}" style="height:300px;"/>
+            <p:chart type="bar" model="#{purchaseController.profitModel}" style="height:300px;"/>
             
         </h:form>
     </h:body>
