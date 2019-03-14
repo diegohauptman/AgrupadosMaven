@@ -63,6 +63,10 @@ public class PurchaseController implements Serializable {
         
     }
 
+    public int getTotalCoupons() {
+        return totalCoupons;
+    }
+    
     public LineChartModel getDateModel() {
         return dateModel;
     }
@@ -92,9 +96,8 @@ public class PurchaseController implements Serializable {
         
         barModel.addSeries(count);
  
-        barModel.setTitle("Total de Ofertas Vendidas");
+        barModel.setTitle("Total Cupones Vendidos por Ofertas");
         barModel.setLegendPosition("ne");
-        //barModel.setStacked(true);
         barModel.setShowPointLabels(true);
         barModel.setZoom(true);
         barModel.setAnimate(true);
@@ -103,7 +106,7 @@ public class PurchaseController implements Serializable {
         Axis xAxis = new CategoryAxis("Ventas por Oferta");
         barModel.getAxes().put(AxisType.X, xAxis);
         Axis yAxis = barModel.getAxis(AxisType.Y);
-        yAxis.setLabel("Cupons Vendidos");
+        yAxis.setLabel("Cupones Vendidos");
         yAxis.setMin(0);
         yAxis.setMax(200);
         
@@ -137,8 +140,6 @@ public class PurchaseController implements Serializable {
 //            return couponsList;
 //        }).map((couponsList) -> couponsList.size()).reduce(coupons, Integer::sum);
 //        
-        System.out.println("How many coupons: " + coupons);
-
         
         
     }
@@ -173,18 +174,15 @@ public class PurchaseController implements Serializable {
                 .stream()
                 .collect(Collectors.groupingBy(CouponsWithLocalDate::getPurchaseDatetime, Collectors.counting()));
         
-        System.out.println(collect);
-        
         //Fills chart series with data 
         collect.forEach((k,v) -> {
-            System.out.println("Key: " + k + ", Value: " + v);
             series1.set(k, v);
         });
         
         dateModel.addSeries(series1);
-        dateModel.setTitle("Cupons vendidos en 3 meses");
+        dateModel.setTitle("Cupones vendidos por fecha (3 meses)");
         dateModel.setZoom(true);
-        dateModel.getAxis(AxisType.Y).setLabel("Cupons Vendidos");
+        dateModel.getAxis(AxisType.Y).setLabel("Cupones Vendidos");
         dateModel.setAnimate(true);
         DateAxis axis = new DateAxis("Fechas");
         axis.setTickAngle(-50);
@@ -205,14 +203,13 @@ public class PurchaseController implements Serializable {
             List<Coupons> couponsList = couponsFacade.findCouponsbyOffers(offer);
             float total = couponsList.size() * offer.getOfferPrice();
             totalMoney.set(offer.getTitle(), total);
-            System.out.println("Offer: " + offer.getTitle() + " Total: €" + total);
         });
         
         totalMoney.setLabel("Euros");
         
         profitModel.addSeries(totalMoney);
  
-        profitModel.setTitle("Renta por Oferta");
+        profitModel.setTitle("Total en Euros por Oferta");
         profitModel.setLegendPosition("ne");
         //barModel.setStacked(true);
         profitModel.setShowPointLabels(true);

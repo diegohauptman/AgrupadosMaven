@@ -7,17 +7,24 @@
       xmlns:p="http://primefaces.org/ui">
 
     <ui:composition id="statistics">
-       <h:body>
-        <h:form>
-            <p:chart type="bar" model="#{purchaseController.couponsByOffer}"  style="height:300px" />
-            <br/>
-            <br/>
-            <p:chart type="line" model="#{purchaseController.dateModel}" style="height:300px;"/>
-            <br/>
-            <br/>
-            <p:chart type="bar" model="#{purchaseController.profitModel}" style="height:300px;"/>
-        </h:form>
-    </h:body>
+        <h:body>
+            <h:form>
+                <p:panel style="text-align: center">
+                    <h:outputText value="Total Cupones Vendidos: " style="font-size:large"></h:outputText>
+                    <h:outputText value="#{purchaseController.totalCoupons}" style="font-size:large"></h:outputText>
+                </p:panel>
+
+                <br/>
+                <br/>
+                <p:chart type="bar" model="#{purchaseController.couponsByOffer}"  style="height:300px" />
+                <br/>
+                <br/>
+                <p:chart type="line" model="#{purchaseController.dateModel}" style="height:300px;"/>
+                <br/>
+                <br/>
+                <p:chart type="bar" model="#{purchaseController.profitModel}" style="height:300px;"/>
+            </h:form>
+        </h:body>
     </ui:composition>
 
 </html>
