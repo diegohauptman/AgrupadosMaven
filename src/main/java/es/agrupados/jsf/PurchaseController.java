@@ -88,11 +88,11 @@ public class PurchaseController implements Serializable {
             count.set(offer.getTitle(), couponsList.size());
         });
         
-        count.setLabel("Quantity");
+        count.setLabel("Cantidad");
         
         barModel.addSeries(count);
  
-        barModel.setTitle("Total Sales by Offer");
+        barModel.setTitle("Total de Ofertas Vendidas");
         barModel.setLegendPosition("ne");
         //barModel.setStacked(true);
         barModel.setShowPointLabels(true);
@@ -100,10 +100,10 @@ public class PurchaseController implements Serializable {
         barModel.setAnimate(true);
                
  
-        Axis xAxis = new CategoryAxis("Sales by Offer");
+        Axis xAxis = new CategoryAxis("Ventas por Oferta");
         barModel.getAxes().put(AxisType.X, xAxis);
         Axis yAxis = barModel.getAxis(AxisType.Y);
-        yAxis.setLabel("Sold Coupons");
+        yAxis.setLabel("Cupons Vendidos");
         yAxis.setMin(0);
         yAxis.setMax(200);
         
@@ -182,11 +182,11 @@ public class PurchaseController implements Serializable {
         });
         
         dateModel.addSeries(series1);
-        dateModel.setTitle("Quarterly Total Coupons");
+        dateModel.setTitle("Cupons vendidos en 3 meses");
         dateModel.setZoom(true);
-        dateModel.getAxis(AxisType.Y).setLabel("Sold Coupons");
+        dateModel.getAxis(AxisType.Y).setLabel("Cupons Vendidos");
         dateModel.setAnimate(true);
-        DateAxis axis = new DateAxis("Dates");
+        DateAxis axis = new DateAxis("Fechas");
         axis.setTickAngle(-50);
         axis.setMin(LocalDate.now().minusMonths(2).toString());
         axis.setMax(LocalDate.now().toString());
@@ -212,7 +212,7 @@ public class PurchaseController implements Serializable {
         
         profitModel.addSeries(totalMoney);
  
-        profitModel.setTitle("Profit by Offer");
+        profitModel.setTitle("Renta por Oferta");
         profitModel.setLegendPosition("ne");
         //barModel.setStacked(true);
         profitModel.setShowPointLabels(true);
@@ -220,7 +220,7 @@ public class PurchaseController implements Serializable {
         profitModel.setAnimate(true);
                
  
-        Axis xAxis = new CategoryAxis("Sales by Offer");
+        Axis xAxis = new CategoryAxis("Ventas por Oferta");
         profitModel.getAxes().put(AxisType.X, xAxis);
         Axis yAxis = profitModel.getAxis(AxisType.Y);
         yAxis.setLabel("€");
