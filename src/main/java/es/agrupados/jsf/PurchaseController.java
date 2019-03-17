@@ -32,7 +32,7 @@ import org.primefaces.model.chart.LineChartModel;
 import org.primefaces.model.chart.LineChartSeries;
 
 /**
- *
+ * Controller class with methods for the Statistics functionality for Business.
  * @author mundakamacbook
  */
 @Named("purchaseController")
@@ -50,7 +50,9 @@ public class PurchaseController implements Serializable {
     private LineChartModel dateModel;
     private int totalCoupons = 0;
     
-    
+    /**
+     * Post construct method to pre initialize objects.
+     */
     @PostConstruct
     public void init() {
         FacesContext context = FacesContext.getCurrentInstance();
@@ -63,22 +65,41 @@ public class PurchaseController implements Serializable {
         
     }
 
+    /**
+     * Getter for totalCoupons
+     * @return
+     */
     public int getTotalCoupons() {
         return totalCoupons;
     }
     
+    /**
+     * Getter for dateModel
+     * @return
+     */
     public LineChartModel getDateModel() {
         return dateModel;
     }
     
+    /**
+     * Getter for barModel
+     * @return
+     */
     public CartesianChartModel getCouponsByOffer() {
         return barModel;
     }
 
+    /**
+     * Getter for profitModel
+     * @return
+     */
     public CartesianChartModel getProfitModel() {
         return profitModel;
     }
     
+    /**
+     * Method that calculates the total coupons sold by offers and set the statistic chart.
+     */
     public void numberOfCouponsByOffer(){
         
         barModel = new BarChartModel();
@@ -112,6 +133,9 @@ public class PurchaseController implements Serializable {
         
     }
     
+    /**
+     * Method to calculate total of coupons for the business.
+     */
     public void totalCoupons(){
         
         List<Offers> allOffers = offersFacade.findAll();
@@ -144,6 +168,9 @@ public class PurchaseController implements Serializable {
         
     }
     
+    /**
+     * Method to calculate total coupons sold in a month and set the statistic chart.
+     */
     public void totalCouponsByMonth(){
         
         dateModel = new LineChartModel();
@@ -194,6 +221,9 @@ public class PurchaseController implements Serializable {
         
     }
     
+    /**
+     * Method to calculate the profit in Euros for each Offer and set the statistic chart.
+     */
     public void getProfit(){
         List<Offers> offersByUsers = offersFacade.getOffersByUsers(loggedUser);
         profitModel = new BarChartModel();

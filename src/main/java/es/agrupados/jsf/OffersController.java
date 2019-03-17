@@ -136,7 +136,10 @@ public class OffersController implements Serializable {
     }
     
     /**
-     * Search for offers by any string contained in the title, description or the publisher of the offer.
+     * This is the Search functionality.
+     * 
+     * Search for offers by any string contained in the title, description 
+     * or the publisher of the offer.
      */
     public void filterOffers(){
         items = getFacade().findAll();
